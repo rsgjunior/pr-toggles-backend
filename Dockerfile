@@ -16,7 +16,7 @@ COPY tsconfig.json ./
 COPY . .
 
 RUN npm install
-#RUN npx prisma migrate dev --name init
+RUN npx prisma migrate dev
 
 # Run and expose the server on port 3000
 EXPOSE 3000
@@ -24,4 +24,4 @@ EXPOSE 3000
 # A command to start the server
 # for best practice read this
 # https://notiz.dev/blog/prisma-migrate-deploy-with-docker
-CMD npm run start:migrate:dev
+CMD npm run start:dev
