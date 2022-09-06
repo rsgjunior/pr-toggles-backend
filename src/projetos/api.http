@@ -1,0 +1,12 @@
+GET http://localhost:3000/projetos
+
+###
+
+POST http://localhost:3000/projetos
+content-type: application/json
+
+{
+    "nome": "ciclano",
+    "descricao": "blabla",
+    "clientes_clienteId": 1
+}

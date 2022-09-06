@@ -4,9 +4,8 @@ import { CreateClienteDto } from './dto/create-cliente.dto';
 import { UpdateClienteDto } from './dto/update-cliente.dto';
 
 @Injectable()
-export class ClienteService {
+export class ClientesService {
   constructor(private readonly prisma: PrismaService) {}
-
   create(createClienteDto: CreateClienteDto) {
     return this.prisma.clientes.create({
       data: createClienteDto,
