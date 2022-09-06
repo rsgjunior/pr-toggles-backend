@@ -1,27 +1,20 @@
 FROM node:alpine
 WORKDIR /app
+
 # COPY package.json and package-lock.json files
 COPY package*.json ./
 
-# generated prisma files
-COPY prisma ./prisma/
+RUN npm install
 
-# COPY ENV variable
-COPY .env ./
-
-# COPY tsconfig.json file
-COPY tsconfig.json ./
-
-# COPY
+# Bundle app source / copy all other files
 COPY . .
 
-RUN npm install
-RUN npx prisma migrate dev
+#RUN npx prisma migrate dev
 
 # Run and expose the server on port 3000
 EXPOSE 3000
 
 # A command to start the server
 # for best practice read this
-# https://notiz.dev/blog/prisma-migrate-deploy-with-docker
-CMD npm run start:dev
+#https://github.com/ThomasOliver545/nestjs-local-development-docker-compose-hot-reload/blob/master/docker-compose.yml
+CMD npm run build
