@@ -18,8 +18,8 @@ services:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - .:/app
-      - ./app/node_modules
+      - .:/app/
+      - /app/node_modules/
     command: npm run start:debug
     ports:
       - "3000:3000"
