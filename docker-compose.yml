@@ -1,0 +1,29 @@
+version: "3"
+services:
+  database:
+    image: mysql
+    command: --default-authentication-plugin=caching_sha2_password
+    restart: unless-stopped
+    volumes: 
+      - ./data:/data/database
+    environment:
+      MYSQL_ROOT_USER: root
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: prtoggles
+    ports:
+      - '3306:3306'
+  api:
+    container_name: pr-toggles-backend-container
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app/
+      - /app/node_modules/
+    command: npm run start:debug
+    ports:
+      - "3000:3000"
+
+    restart: unless-stopped
+    depends_on:
+      - database
