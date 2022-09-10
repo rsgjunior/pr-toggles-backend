@@ -7,34 +7,50 @@ import { UpdateProjetoDto } from './dto/update-projeto.dto';
 export class ProjetosService {
   constructor(private readonly prisma: PrismaService) {}
 
-  create(createProjetoDto: CreateProjetoDto) {
-    return this.prisma.projetos.create({
+  async create(createProjetoDto: CreateProjetoDto) {
+    const projeto = await this.prisma.projetos.create({
       data: createProjetoDto,
     });
+
+    return projeto;
   }
 
-  findAll() {
-    return this.prisma.projetos.findMany();
-  }
+  async findAll() {
+    const projetos = await this.prisma.projetos.findMany({
+      include: {
+        clientes: {
+          select: {
+            clienteId: true
+          }
+        }
+      }
+    });
 
-  findOne(id: number) {
-    return this.prisma.projetos.findUnique({
+    return projetos;
+  } 
+
+  async findOne(id: number) {
+    const projeto = await this.prisma.projetos.findUnique({
       where: {
         projetoId: id,
       },
     });
+
+    return projeto;
   }
 
-  update(id: number, updateProjetoDto: UpdateProjetoDto) {
-    return this.prisma.projetos.update({
+  async update(id: number, updateProjetoDto: UpdateProjetoDto) {
+    const projeto = await this.prisma.projetos.update({
       where: {
         projetoId: id,
       },
       data: updateProjetoDto,
     });
+
+    return projeto;
   }
 
-  remove(id: number) {
+  async remove(id: number) {
     return this.prisma.projetos.delete({
       where: {
         projetoId: id,

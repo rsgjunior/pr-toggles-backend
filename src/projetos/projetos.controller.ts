@@ -10,10 +10,12 @@ import {
 import { ProjetosService } from './projetos.service';
 import { CreateProjetoDto } from './dto/create-projeto.dto';
 import { UpdateProjetoDto } from './dto/update-projeto.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('projetos')
 @Controller('projetos')
 export class ProjetosController {
-  constructor(private readonly projetosService: ProjetosService) {}
+  constructor(private readonly projetosService: ProjetosService) { }
 
   @Post()
   create(@Body() createProjetoDto: CreateProjetoDto) {
