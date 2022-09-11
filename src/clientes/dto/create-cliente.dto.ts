@@ -1,12 +1,14 @@
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsString, IsOptional, IsNotEmpty } from 'class-validator';
-import { Cliente } from '../entities/cliente.entity';
 
-export class CreateClienteDto extends Cliente {
+export class CreateClienteDto {
   @IsString()
   @IsNotEmpty()
+  @ApiProperty()
   nome: string;
 
   @IsString()
   @IsOptional()
+  @ApiPropertyOptional()
   descricao?: string | null;
 }

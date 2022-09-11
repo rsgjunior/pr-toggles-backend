@@ -2,11 +2,15 @@ GET http://localhost:3000/projetos
 
 ###
 
+GET http://localhost:3000/projetos/2
+
+###
+
 POST http://localhost:3000/projetos
 content-type: application/json
 
 {
-    "nome": "ciclano",
-    "descricao": "blabla",
+    "nome": "test ambiente 2",
+    "descricao": "blablasadadsads",
     "clientes_clienteId": 1
 }
