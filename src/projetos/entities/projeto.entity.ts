@@ -1,12 +1,12 @@
 import { Prisma } from '@prisma/client';
 
-export class Projeto implements Prisma.projetosUncheckedCreateInput {
-  projetoId?: number;
+export class Projeto implements Prisma.ProjetoUncheckedCreateInput {
+  id?: number;
+  cliente_id: number;
   nome: string;
   descricao?: string;
-  createdAt?: string | Date;
-  updatedAt?: string | Date;
-  clientes_clienteId: number;
-  ambientes?: Prisma.ambientesUncheckedCreateNestedManyWithoutProjetosInput;
-  funcionalidades_has_projetos_and_ambientes?: Prisma.funcionalidades_has_projetos_and_ambientesUncheckedCreateNestedManyWithoutProjetosInput;
+  created_at?: string | Date;
+  updated_at?: string | Date;
+  ambientes?: Prisma.AmbienteUncheckedCreateNestedManyWithoutProjetoInput;
+  funcionalidade_has_projeto_and_ambiente?: Prisma.FuncionalidadeHasProjetoAndAmbienteUncheckedCreateNestedManyWithoutProjetoInput;
 }

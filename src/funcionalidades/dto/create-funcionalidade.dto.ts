@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
-import { IsNumber, IsOptional, IsString, Max, Min } from "class-validator";
+import { IsBoolean, IsNumber, IsOptional, IsString, Max, Min } from "class-validator";
 
 export class CreateFuncionalidadeDto {
   @IsString()
@@ -16,9 +16,12 @@ export class CreateFuncionalidadeDto {
   @ApiPropertyOptional()
   tipo?: string;
 
+  @IsBoolean()
+  @IsOptional()
+  @ApiPropertyOptional()
+  ativada?: boolean;
+
   @IsNumber()
-  @Max(1)
-  @Min(0)
-  @ApiProperty({ description: '0 - false / 1 - true' })
-  ativada: number;
+  @ApiProperty({ description: 'ID do Projeto que a funcionalidade pertence' })
+  projeto_id: number;
 }

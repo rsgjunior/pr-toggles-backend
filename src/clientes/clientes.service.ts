@@ -5,39 +5,31 @@ import { UpdateClienteDto } from './dto/update-cliente.dto';
 
 @Injectable()
 export class ClientesService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
   create(createClienteDto: CreateClienteDto) {
-    return this.prisma.clientes.create({
+    return this.prisma.cliente.create({
       data: createClienteDto,
     });
   }
 
   findAll() {
-    return this.prisma.clientes.findMany();
+    return this.prisma.cliente.findMany();
   }
 
   findOne(id: number) {
-    return this.prisma.clientes.findUnique({
-      where: {
-        clienteId: id,
-      },
-    });
+    return this.prisma.cliente.findUnique({ where: { id }, });
   }
 
   update(id: number, updateClienteDto: UpdateClienteDto) {
-    return this.prisma.clientes.update({
-      where: {
-        clienteId: id,
-      },
+    return this.prisma.cliente.update({
+      where: { id },
       data: updateClienteDto,
     });
   }
 
   remove(id: number) {
-    return this.prisma.clientes.delete({
-      where: {
-        clienteId: id,
-      },
+    return this.prisma.cliente.delete({
+      where: { id },
     });
   }
 }

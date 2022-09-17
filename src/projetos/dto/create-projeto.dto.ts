@@ -14,8 +14,8 @@ export class CreateProjetoDto {
 
   @IsNumber()
   @ApiProperty({ description: 'ID do cliente que o projeto pertence' })
-  clientes_clienteId: number;
+  cliente_id: number;
 
-  @IsOptional()
-  ambientes?: Prisma.ambientesUncheckedCreateNestedManyWithoutProjetosInput;
+  @IsOptional() 
+  ambientes?: Prisma.AmbienteUncheckedCreateNestedManyWithoutProjetoInput
 }

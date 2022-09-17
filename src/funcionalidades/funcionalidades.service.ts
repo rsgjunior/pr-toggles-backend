@@ -9,7 +9,7 @@ export class FuncionalidadesService {
 
   create(createFuncionalidadeDto: CreateFuncionalidadeDto) {
 
-    const funcionalidade = this.prisma.funcionalidades.create({
+    const funcionalidade = this.prisma.funcionalidade.create({
       data: createFuncionalidadeDto
     });
 

@@ -7,135 +7,149 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model agregados {
-  agregadoId                Int                      @id @unique(map: "agregadoId_UNIQUE") @default(autoincrement()) @db.UnsignedInt
-  nome                      String                      @db.VarChar(45)
-  descricao                 String?                     @db.Text
-  createdAt                 DateTime                    @default(now()) @db.Timestamp(0)
-  updatedAt                 DateTime                    @default(now()) @db.Timestamp(0)
-  estrategias_has_agregados estrategias_has_agregados[]
-  regras                    regras[]
+model Agregado {
+  id                      Int                       @id @default(autoincrement()) @map("agregado_id")
+  nome                    String                    @db.VarChar(45)
+  descricao               String?                   @db.Text
+  created_at              DateTime                  @default(now()) @db.Timestamp(0)
+  updated_at              DateTime                  @updatedAt @default(now()) @db.Timestamp(0)
+  estrategia_has_agregado EstrategiaHasAgregado[]
+  regras                  Regra[]
+
+  @@map("agregado")
 }
 
-model ambientes {
-  ambienteId                                 Int                                       @id @unique(map: "ambienteId_UNIQUE") @default(autoincrement()) @db.UnsignedInt
-  nome                                       String                                       @db.VarChar(45)
-  descricao                                  String?                                      @db.Text
-  createdAt                                  DateTime                                     @default(now()) @db.Timestamp(0)
-  updatedAt                                  DateTime                                     @default(now()) @db.Timestamp(0)
-  projetos_projetoId                         Int                                       @db.UnsignedInt
-  projetos                                   projetos                                     @relation(fields: [projetos_projetoId], references: [projetoId], onDelete: NoAction, onUpdate: NoAction, map: "fk_ambientes_projetos1")
-  funcionalidades_has_projetos_and_ambientes funcionalidades_has_projetos_and_ambientes[]
+model Ambiente {
+  id                                      Int                                       @id @default(autoincrement()) @map("ambiente_id")
+  projeto_id                              Int
+  nome                                    String                                    @db.VarChar(45)
+  descricao                               String?                                   @db.Text
+  created_at                              DateTime                                  @default(now()) @db.Timestamp(0)
+  updated_at                              DateTime                                  @updatedAt @default(now()) @db.Timestamp(0)
+  projeto                                 Projeto                                   @relation(fields: [projeto_id], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "fk_ambientes_projetos1")
+  funcionalidade_has_projeto_and_ambiente FuncionalidadeHasProjetoAndAmbiente[]
 
-  @@index([projetos_projetoId], map: "fk_ambientes_projetos1_idx")
+  @@index([projeto_id], map: "fk_ambientes_projetos1_idx")
+
+  @@map("ambiente")
 }
 
-model clientes {
-  clienteId Int     @id @unique(map: "clienteId_UNIQUE") @default(autoincrement()) @db.UnsignedInt
-  nome      String     @db.VarChar(256)
-  descricao String?    @db.Text
-  createdAt DateTime   @default(now()) @db.Timestamp(0)
-  updatedAt DateTime   @default(now()) @db.Timestamp(0)
-  projetos  projetos[]
-  usuarios  usuarios[]
+model Cliente {
+  id         Int       @id @default(autoincrement()) @map("cliente_id")
+  nome       String    @db.VarChar(256)
+  descricao  String?   @db.Text
+  created_at DateTime  @default(now()) @db.Timestamp(0)
+  updated_at DateTime  @updatedAt @default(now()) @db.Timestamp(0)
+  projetos   Projeto[]
+  usuarios   Usuario[]
+
+  @@map("cliente")
 }
 
-model estrategias {
-  estrategiaId                     Int                      @id @unique(map: "estrategiaId_UNIQUE") @default(autoincrement()) @db.UnsignedInt
-  tipo                             String                      @db.VarChar(45)
-  descricao                        String?                     @db.Text
-  parametros                       String                      @db.LongText
-  createdAt                        DateTime                    @default(now()) @db.Timestamp(0)
-  updatedAt                        DateTime                    @default(now()) @db.Timestamp(0)
-  funcionalidades_funcionalidadeId Int                      @db.UnsignedInt
-  funcionalidades                  funcionalidades             @relation(fields: [funcionalidades_funcionalidadeId], references: [funcionalidadeId], onDelete: NoAction, onUpdate: NoAction, map: "fk_estrategias_funcionalidades1")
-  estrategias_has_agregados        estrategias_has_agregados[]
-  regras                           regras[]
+model Estrategia {
+  id                      Int                       @id @default(autoincrement()) @map("estrategia_id")
+  funcionalidade_id       Int
+  tipo                    String                    @db.VarChar(45)
+  descricao               String?                   @db.Text
+  parametros              String                    @db.LongText
+  created_at              DateTime                  @default(now()) @db.Timestamp(0)
+  updated_at              DateTime                  @updatedAt @default(now()) @db.Timestamp(0)
+  funcionalidade          Funcionalidade            @relation(fields: [funcionalidade_id], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "fk_estrategias_funcionalidades1")
+  estrategia_has_agregado EstrategiaHasAgregado[]
+  regras                  Regra[]
 
-  @@index([funcionalidades_funcionalidadeId], map: "fk_estrategias_funcionalidades1_idx")
+  @@index([funcionalidade_id], map: "fk_estrategias_funcionalidades1_idx")
+  @@map("estrategia")
 }
 
-model estrategias_has_agregados {
-  id                       Int      @id @unique(map: "id_UNIQUE") @default(autoincrement()) @db.UnsignedInt
-  estrategias_estrategiaId Int      @db.UnsignedInt
-  agregados_agregadoId     Int      @db.UnsignedInt
-  agregados                agregados   @relation(fields: [agregados_agregadoId], references: [agregadoId], onDelete: NoAction, onUpdate: NoAction, map: "fk_estrategias_has_agregados_agregados1")
-  estrategias              estrategias @relation(fields: [estrategias_estrategiaId], references: [estrategiaId], onDelete: NoAction, onUpdate: NoAction, map: "fk_estrategias_has_agregados_estrategias")
+model EstrategiaHasAgregado {
+  id                         Int        @id @default(autoincrement()) @map("estrategia_has_agregado_id")
+  estrategia_id              Int
+  agregado_id                Int
+  agregado                   Agregado   @relation(fields: [agregado_id], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "fk_estrategias_has_agregados_agregados1")
+  estrategia                 Estrategia @relation(fields: [estrategia_id], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "fk_estrategias_has_agregados_estrategias")
 
-  @@index([agregados_agregadoId], map: "fk_estrategias_has_agregados_agregados1_idx")
-  @@index([estrategias_estrategiaId], map: "fk_estrategias_has_agregados_estrategias_idx")
+  @@index([agregado_id], map: "fk_estrategias_has_agregados_agregados1_idx")
+  @@index([estrategia_id], map: "fk_estrategias_has_agregados_estrategias_idx")
+  @@map("estrategia_has_agregado")
 }
 
-model funcionalidades {
-  funcionalidadeId                           Int                                       @id @unique(map: "funcionalidadeId_UNIQUE") @default(autoincrement()) @db.UnsignedInt
-  nome                                       String                                       @db.VarChar(50)
-  descricao                                  String?                                      @db.Text
-  tipo                                       String?                                      @db.VarChar(45)
-  ativada                                    Int                                          @db.TinyInt
-  createdAt                                  DateTime                                     @default(now()) @db.Timestamp(0)
-  updatedAt                                  DateTime                                     @default(now()) @db.Timestamp(0)
-  estrategias                                estrategias[]
-  funcionalidades_has_projetos_and_ambientes funcionalidades_has_projetos_and_ambientes[]
+model Funcionalidade {
+  id                                      Int                                       @id @default(autoincrement()) @map("funcionalidade_id")
+  nome                                    String                                    @db.VarChar(50)
+  descricao                               String?                                   @db.Text
+  tipo                                    String?                                   @db.VarChar(45)
+  ativada                                 Boolean                                   @default(false)
+  created_at                              DateTime                                  @default(now()) @db.Timestamp(0)
+  updated_at                              DateTime                                  @updatedAt @default(now()) @db.Timestamp(0)
+  estrategias                             Estrategia[]
+  funcionalidade_has_projeto_and_ambiente FuncionalidadeHasProjetoAndAmbiente[]
+
+  @@map("funcionalidade")
 }
 
-model funcionalidades_has_projetos_and_ambientes {
-  id                               Int          @id @unique(map: "id_UNIQUE") @default(autoincrement()) @db.UnsignedInt
-  funcionalidades_funcionalidadeId Int          @db.UnsignedInt
-  projetos_projetoId               Int          @db.UnsignedInt
-  ambientes_ambienteId             Int          @db.UnsignedInt
-  ambientes                        ambientes       @relation(fields: [ambientes_ambienteId], references: [ambienteId], onDelete: NoAction, onUpdate: NoAction, map: "fk_funcionalidades_has_projetos_and_ambientes_ambientes1")
-  funcionalidades                  funcionalidades @relation(fields: [funcionalidades_funcionalidadeId], references: [funcionalidadeId], onDelete: NoAction, onUpdate: NoAction, map: "fk_funcionalidades_has_projetos_and_ambientes_funcionalidades1")
-  projetos                         projetos        @relation(fields: [projetos_projetoId], references: [projetoId], onDelete: NoAction, onUpdate: NoAction, map: "fk_funcionalidades_has_projetos_and_ambientes_projetos1")
+model FuncionalidadeHasProjetoAndAmbiente {
+  id                      Int            @id @default(autoincrement()) @map("funcionalidade_has_projeto_and_ambiente_id")
+  funcionalidade_id       Int
+  projeto_id              Int
+  ambiente_id             Int
+  ativada                 Boolean        @default(false)
+  ambiente                Ambiente       @relation(fields: [ambiente_id], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "fk_funcionalidades_has_projetos_and_ambientes_ambientes1")
+  funcionalidade          Funcionalidade @relation(fields: [funcionalidade_id], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "fk_funcionalidades_has_projetos_and_ambientes_funcionalidades1")
+  projeto                 Projeto        @relation(fields: [projeto_id], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "fk_funcionalidades_has_projetos_and_ambientes_projetos1")
 
-  @@index([ambientes_ambienteId], map: "fk_funcionalidades_has_projetos_and_ambientes_ambientes1_idx")
-  @@index([funcionalidades_funcionalidadeId], map: "fk_funcionalidades_has_projetos_and_ambientes_funcionalidad_idx")
-  @@index([projetos_projetoId], map: "fk_funcionalidades_has_projetos_and_ambientes_projetos1_idx")
+  @@index([ambiente_id], map: "fk_funcionalidades_has_projetos_and_ambientes_ambientes1_idx")
+  @@index([funcionalidade_id], map: "fk_funcionalidades_has_projetos_and_ambientes_funcionalidad_idx")
+  @@index([projeto_id], map: "fk_funcionalidades_has_projetos_and_ambientes_projetos1_idx")
+  @@map("funcionalidade_has_projeto_and_ambiente")
 }
 
-model projetos {
-  projetoId                                  Int                                       @id @unique(map: "projetoId_UNIQUE") @default(autoincrement()) @db.UnsignedInt
-  nome                                       String                                       @db.VarChar(100)
-  descricao                                  String?                                      @db.Text
-  createdAt                                  DateTime                                     @default(now()) @db.Timestamp(0)
-  updatedAt                                  DateTime                                     @default(now()) @db.Timestamp(0)
-  clientes_clienteId                         Int                                       @db.UnsignedInt
-  clientes                                   clientes                                     @relation(fields: [clientes_clienteId], references: [clienteId], onDelete: NoAction, onUpdate: NoAction, map: "fk_projetos_clientes1")
-  ambientes                                  ambientes[]
-  funcionalidades_has_projetos_and_ambientes funcionalidades_has_projetos_and_ambientes[]
+model Projeto {
+  id                                      Int                                       @id @default(autoincrement()) @map("projeto_id")
+  cliente_id                              Int
+  nome                                    String                                    @db.VarChar(100)
+  descricao                               String?                                   @db.Text
+  created_at                              DateTime                                  @default(now()) @db.Timestamp(0)
+  updated_at                              DateTime                                  @updatedAt @default(now()) @db.Timestamp(0)
+  cliente                                 Cliente                                   @relation(fields: [cliente_id], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "fk_projetos_clientes1")
+  ambientes                               Ambiente[]
+  funcionalidade_has_projeto_and_ambiente FuncionalidadeHasProjetoAndAmbiente[]
 
-  @@index([clientes_clienteId], map: "fk_projetos_clientes1_idx")
+  @@index([cliente_id], map: "fk_projetos_clientes1_idx")
+  @@map("projeto")
 }
 
-model regras {
-  regraId                  Int       @id @unique(map: "regraId_UNIQUE") @default(autoincrement()) @db.UnsignedInt
-  parametros               String       @db.LongText
-  createdAt                DateTime     @default(now()) @db.Timestamp(0)
-  updatedAt                DateTime     @default(now()) @db.Timestamp(0)
-  agregados_agregadoId     Int?      @db.UnsignedInt
-  estrategias_estrategiaId Int?      @db.UnsignedInt
-  agregados                agregados?   @relation(fields: [agregados_agregadoId], references: [agregadoId], onDelete: NoAction, onUpdate: NoAction, map: "fk_regras_agregados1")
-  estrategias              estrategias? @relation(fields: [estrategias_estrategiaId], references: [estrategiaId], onDelete: NoAction, onUpdate: NoAction, map: "fk_regras_estrategias1")
+model Regra {
+  id            Int         @id @default(autoincrement()) @map("regra_id")
+  agregado_id   Int?
+  estrategia_id Int?
+  parametros    String      @db.LongText
+  created_at    DateTime    @default(now()) @db.Timestamp(0)
+  updated_at    DateTime    @updatedAt @default(now()) @db.Timestamp(0)
+  agregado      Agregado?   @relation(fields: [agregado_id], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "fk_regras_agregados1")
+  estrategia    Estrategia? @relation(fields: [estrategia_id], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "fk_regras_estrategias1")
 
-  @@index([agregados_agregadoId], map: "fk_regras_agregados1_idx")
-  @@index([estrategias_estrategiaId], map: "fk_regras_estrategias1_idx")
+  @@index([agregado_id], map: "fk_regras_agregados1_idx")
+  @@index([estrategia_id], map: "fk_regras_estrategias1_idx")
+  @@map("regra")
 }
 
-model usuarios {
-  usuarioId          Int        @id @unique(map: "usuarioId_UNIQUE") @default(autoincrement()) @db.UnsignedInt
-  nome               String        @db.VarChar(256)
-  email              String        @db.VarChar(128)
-  usuario            String        @db.VarChar(45)
-  tipo               usuarios_tipo
-  senha              String?       @db.VarChar(256)
-  createdAt          DateTime      @default(now()) @db.Timestamp(0)
-  updatedAt          DateTime      @default(now()) @db.Timestamp(0)
-  clientes_clienteId Int        @db.UnsignedInt
-  clientes           clientes      @relation(fields: [clientes_clienteId], references: [clienteId], onDelete: NoAction, onUpdate: NoAction, map: "fk_usuarios_clientes1")
+model Usuario {
+  id         Int          @id @default(autoincrement()) @map("usuario_id")
+  cliente_id Int
+  nome       String       @db.VarChar(256)
+  email      String       @db.VarChar(128)
+  tipo       UsuarioTipo
+  senha      String?      @db.VarChar(256)
+  created_at DateTime     @default(now()) @db.Timestamp(0)
+  updated_at DateTime     @updatedAt @default(now()) @db.Timestamp(0)
+  cliente    Cliente      @relation(fields: [cliente_id], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "fk_usuarios_clientes1")
 
-  @@index([clientes_clienteId], map: "fk_usuarios_clientes1_idx")
+  @@index([cliente_id], map: "fk_usuarios_clientes1_idx")
+  @@map("usuario")
 }
 
-enum usuarios_tipo {
+enum UsuarioTipo {
   Administrador
   Usuario
 }

@@ -5,27 +5,27 @@ import { UpdateProjetoDto } from './dto/update-projeto.dto';
 
 @Injectable()
 export class ProjetosService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   async create(createProjetoDto: CreateProjetoDto) {
-    const cliente = await this.prisma.clientes.findUnique({
+    const cliente = await this.prisma.cliente.findUnique({
       where: {
-        clienteId: createProjetoDto.clientes_clienteId
+        id: createProjetoDto.cliente_id
       }
     });
 
-    if(!cliente) {
-      throw new NotFoundException(`Cliente de ID ${createProjetoDto.clientes_clienteId} não existe.`);
+    if (!cliente) {
+      throw new NotFoundException(`Cliente de ID ${createProjetoDto.cliente_id} não existe.`);
     }
 
-    const projeto = await this.prisma.projetos.findFirst({
+    const projeto = await this.prisma.projeto.findFirst({
       where: {
-        clientes_clienteId: createProjetoDto.clientes_clienteId,
+        cliente_id: createProjetoDto.cliente_id,
         nome: createProjetoDto.nome
       }
     });
 
-    if(projeto) {
+    if (projeto) {
       throw new HttpException('Já existe um projeto com o mesmo nome para esse cliente', HttpStatus.BAD_REQUEST);
     }
 
@@ -40,7 +40,7 @@ export class ProjetosService {
       };
     }
 
-    return this.prisma.projetos.create({
+    return this.prisma.projeto.create({
       data: createProjetoDto,
       include: {
         ambientes: true
@@ -49,26 +49,24 @@ export class ProjetosService {
   }
 
   async findAll() {
-    return this.prisma.projetos.findMany({
+    return this.prisma.projeto.findMany({
       include: {
-        clientes: {
+        cliente: {
           select: {
-            clienteId: true
+            id: true
           }
         },
         ambientes: true
       }
     });
-  } 
+  }
 
   async findOne(id: number) {
-    const projeto = await this.prisma.projetos.findUnique({
-      where: {
-        projetoId: id,
-      },
+    const projeto = await this.prisma.projeto.findUnique({
+      where: { id },
     });
 
-    if(!projeto) {
+    if (!projeto) {
       throw new NotFoundException();
     }
 
@@ -76,39 +74,31 @@ export class ProjetosService {
   }
 
   async update(id: number, updateProjetoDto: UpdateProjetoDto) {
-    const projeto = await this.prisma.projetos.findUnique({
-      where: {
-        projetoId: id
-      }
+    const projeto = await this.prisma.projeto.findUnique({
+      where: { id }
     });
 
-    if(!projeto) {
+    if (!projeto) {
       throw new NotFoundException();
     }
 
-    return this.prisma.projetos.update({
-      where: {
-        projetoId: id,
-      },
+    return this.prisma.projeto.update({
+      where: { id },
       data: updateProjetoDto,
     });
   }
 
   async remove(id: number) {
-    const projeto = await this.prisma.projetos.findUnique({
-      where: {
-        projetoId: id
-      }
+    const projeto = await this.prisma.projeto.findUnique({
+      where: { id }
     });
 
-    if(!projeto) {
+    if (!projeto) {
       throw new NotFoundException();
     }
 
-    return this.prisma.projetos.delete({
-      where: {
-        projetoId: id,
-      },
+    return this.prisma.projeto.delete({
+      where: { id },
     });
   }
 }

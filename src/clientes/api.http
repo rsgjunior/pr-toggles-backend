@@ -2,9 +2,26 @@ GET http://localhost:3000/clientes
 
 ###
 
+GET http://localhost:3000/clientes/1
+
+###
+
 POST http://localhost:3000/clientes
 content-type: application/json
 
 {
-    "nome": "ciclano"
+    "nome": "beltrano"
 }
+
+###
+
+PATCH http://localhost:3000/clientes/1
+content-type: application/json
+
+{
+    "nome": "beltrano updated"
+}
+
+###
+
+DELETE http://localhost:3000/clientes/1

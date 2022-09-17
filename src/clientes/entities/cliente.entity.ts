@@ -1,11 +1,11 @@
 import { Prisma } from '@prisma/client';
 
-export class Cliente implements Prisma.clientesUncheckedCreateInput {
-  clienteId?: number;
+export class Cliente implements Prisma.ClienteUncheckedCreateInput {
+  id?: number;
   nome: string;
   descricao?: string;
-  createdAt?: string | Date;
-  updatedAt?: string | Date;
-  projetos?: Prisma.projetosUncheckedCreateNestedManyWithoutClientesInput;
-  usuarios?: Prisma.usuariosUncheckedCreateNestedManyWithoutClientesInput;
+  created_at?: string | Date;
+  updated_at?: string | Date;
+  projetos?: Prisma.ProjetoUncheckedCreateNestedManyWithoutClienteInput;
+  usuarios?: Prisma.UsuarioUncheckedCreateNestedManyWithoutClienteInput;
 }
