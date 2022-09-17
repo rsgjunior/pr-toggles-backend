@@ -1,11 +1,19 @@
 import { Injectable } from '@nestjs/common';
+import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateFuncionalidadeDto } from './dto/create-funcionalidade.dto';
 import { UpdateFuncionalidadeDto } from './dto/update-funcionalidade.dto';
 
 @Injectable()
 export class FuncionalidadesService {
+  constructor(private readonly prisma: PrismaService) { }
+
   create(createFuncionalidadeDto: CreateFuncionalidadeDto) {
-    return 'This action adds a new funcionalidade';
+
+    const funcionalidade = this.prisma.funcionalidades.create({
+      data: createFuncionalidadeDto
+    });
+
+    return funcionalidade;
   }
 
   findAll() {

@@ -8,6 +8,16 @@ export class ProjetosService {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(createProjetoDto: CreateProjetoDto) {
+    const cliente = await this.prisma.clientes.findUnique({
+      where: {
+        clienteId: createProjetoDto.clientes_clienteId
+      }
+    });
+
+    if(!cliente) {
+      throw new NotFoundException(`Cliente de ID ${createProjetoDto.clientes_clienteId} não existe.`);
+    }
+
     const projeto = await this.prisma.projetos.findFirst({
       where: {
         clientes_clienteId: createProjetoDto.clientes_clienteId,
