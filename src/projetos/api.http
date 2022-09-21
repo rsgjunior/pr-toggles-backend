@@ -12,7 +12,7 @@ content-type: application/json
 {
     "nome": "test ambiente",
     "descricao": "blablasadadsads",
-    "cliente_id": 2
+    "cliente_id": 1
 }
 
 ###

@@ -1,0 +1,27 @@
+### GET ALL
+GET http://localhost:3000/funcionalidades
+
+### GET ONE BY ID
+GET http://localhost:3000/funcionalidades/1
+
+### CREATE
+POST http://localhost:3000/funcionalidades
+content-type: application/json
+
+{
+    "nome": "test funcionalidade tres",
+    "descricao": "kkkkk",
+    "ativada": true,
+    "projeto_id": 1
+}
+
+### UPDATE
+PATCH http://localhost:3000/funcionalidades/2
+content-type: application/json
+
+{
+    "ativada": false
+}
+
+### DELETE
+DELETE http://localhost:3000/funcionalidades/1

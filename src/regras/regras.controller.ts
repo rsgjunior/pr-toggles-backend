@@ -2,7 +2,9 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { RegrasService } from './regras.service';
 import { CreateRegraDto } from './dto/create-regra.dto';
 import { UpdateRegraDto } from './dto/update-regra.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('regras')
 @Controller('regras')
 export class RegrasController {
   constructor(private readonly regrasService: RegrasService) {}

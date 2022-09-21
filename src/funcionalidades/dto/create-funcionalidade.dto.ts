@@ -1,4 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
+import { Prisma } from "@prisma/client";
 import { IsBoolean, IsNumber, IsOptional, IsString, Max, Min } from "class-validator";
 
 export class CreateFuncionalidadeDto {
