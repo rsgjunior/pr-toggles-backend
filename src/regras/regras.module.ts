@@ -5,6 +5,6 @@ import { PrismaService } from 'src/prisma/prisma.service';
 
 @Module({
   controllers: [RegrasController],
-  providers: [RegrasService, PrismaService]
+  providers: [RegrasService, PrismaService],
 })
 export class RegrasModule {}

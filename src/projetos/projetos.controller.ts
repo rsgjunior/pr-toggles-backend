@@ -15,7 +15,7 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger';
 @ApiTags('projetos')
 @Controller('projetos')
 export class ProjetosController {
-  constructor(private readonly projetosService: ProjetosService) { }
+  constructor(private readonly projetosService: ProjetosService) {}
 
   @Post()
   @ApiOperation({ summary: 'Criar um projeto' })

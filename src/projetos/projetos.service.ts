@@ -1,32 +1,42 @@
-import { Injectable, NotFoundException, HttpException, HttpStatus } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  HttpException,
+  HttpStatus,
+} from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateProjetoDto } from './dto/create-projeto.dto';
 import { UpdateProjetoDto } from './dto/update-projeto.dto';
 
 @Injectable()
 export class ProjetosService {
-  constructor(private readonly prisma: PrismaService) { }
+  constructor(private readonly prisma: PrismaService) {}
 
   async create(createProjetoDto: CreateProjetoDto) {
     const cliente = await this.prisma.cliente.findUnique({
       where: {
-        id: createProjetoDto.cliente_id
-      }
+        id: createProjetoDto.cliente_id,
+      },
     });
 
     if (!cliente) {
-      throw new NotFoundException(`Cliente de ID ${createProjetoDto.cliente_id} não existe.`);
+      throw new NotFoundException(
+        `Cliente de ID ${createProjetoDto.cliente_id} não existe.`,
+      );
     }
 
     const projeto = await this.prisma.projeto.findFirst({
       where: {
         cliente_id: createProjetoDto.cliente_id,
-        nome: createProjetoDto.nome
-      }
+        nome: createProjetoDto.nome,
+      },
     });
 
     if (projeto) {
-      throw new HttpException('Já existe um projeto com o mesmo nome para esse cliente', HttpStatus.BAD_REQUEST);
+      throw new HttpException(
+        'Já existe um projeto com o mesmo nome para esse cliente',
+        HttpStatus.BAD_REQUEST,
+      );
     }
 
     // Criando os ambientes padrões
@@ -36,15 +46,15 @@ export class ProjetosService {
           { nome: 'Produção' },
           { nome: 'Teste' },
           { nome: 'Desenvolvimento' },
-        ]
+        ],
       };
     }
 
     return this.prisma.projeto.create({
       data: createProjetoDto,
       include: {
-        ambientes: true
-      }
+        ambientes: true,
+      },
     });
   }
 
@@ -53,11 +63,11 @@ export class ProjetosService {
       include: {
         cliente: {
           select: {
-            id: true
-          }
+            id: true,
+          },
         },
-        ambientes: true
-      }
+        ambientes: true,
+      },
     });
   }
 
@@ -75,7 +85,7 @@ export class ProjetosService {
 
   async update(id: number, updateProjetoDto: UpdateProjetoDto) {
     const projeto = await this.prisma.projeto.findUnique({
-      where: { id }
+      where: { id },
     });
 
     if (!projeto) {
@@ -90,7 +100,7 @@ export class ProjetosService {
 
   async remove(id: number) {
     const projeto = await this.prisma.projeto.findUnique({
-      where: { id }
+      where: { id },
     });
 
     if (!projeto) {

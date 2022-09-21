@@ -5,7 +5,7 @@ import { UpdateClienteDto } from './dto/update-cliente.dto';
 
 @Injectable()
 export class ClientesService {
-  constructor(private readonly prisma: PrismaService) { }
+  constructor(private readonly prisma: PrismaService) {}
   create(createClienteDto: CreateClienteDto) {
     return this.prisma.cliente.create({
       data: createClienteDto,
@@ -17,7 +17,7 @@ export class ClientesService {
   }
 
   findOne(id: number) {
-    return this.prisma.cliente.findUnique({ where: { id }, });
+    return this.prisma.cliente.findUnique({ where: { id } });
   }
 
   update(id: number, updateClienteDto: UpdateClienteDto) {

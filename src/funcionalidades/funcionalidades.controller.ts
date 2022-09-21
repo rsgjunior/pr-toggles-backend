@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
+
 import { FuncionalidadesService } from './funcionalidades.service';
 import { CreateFuncionalidadeDto } from './dto/create-funcionalidade.dto';
 import { UpdateFuncionalidadeDto } from './dto/update-funcionalidade.dto';
@@ -7,7 +16,9 @@ import { ApiTags } from '@nestjs/swagger';
 @ApiTags('funcionalidades')
 @Controller('funcionalidades')
 export class FuncionalidadesController {
-  constructor(private readonly funcionalidadesService: FuncionalidadesService) {}
+  constructor(
+    private readonly funcionalidadesService: FuncionalidadesService,
+  ) {}
 
   @Post()
   create(@Body() createFuncionalidadeDto: CreateFuncionalidadeDto) {
@@ -25,7 +36,10 @@ export class FuncionalidadesController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateFuncionalidadeDto: UpdateFuncionalidadeDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateFuncionalidadeDto: UpdateFuncionalidadeDto,
+  ) {
     return this.funcionalidadesService.update(+id, updateFuncionalidadeDto);
   }
 

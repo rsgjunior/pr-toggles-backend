@@ -7,7 +7,14 @@ import { FuncionalidadesModule } from './funcionalidades/funcionalidades.module'
 import { RegrasModule } from './regras/regras.module';
 
 @Module({
-  imports: [AuthModule, UsersModule, ClientesModule, ProjetosModule, FuncionalidadesModule, RegrasModule],
+  imports: [
+    AuthModule,
+    UsersModule,
+    ClientesModule,
+    ProjetosModule,
+    FuncionalidadesModule,
+    RegrasModule,
+  ],
   controllers: [],
   providers: [],
 })

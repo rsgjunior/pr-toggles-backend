@@ -5,7 +5,7 @@ import { UpdateRegraDto } from './dto/update-regra.dto';
 
 @Injectable()
 export class RegrasService {
-  constructor(private readonly prisma: PrismaService) { }
+  constructor(private readonly prisma: PrismaService) {}
 
   create(createRegraDto: CreateRegraDto) {
     return 'This action adds a new regra';

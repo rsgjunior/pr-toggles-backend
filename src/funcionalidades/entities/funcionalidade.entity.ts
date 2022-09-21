@@ -1,6 +1,8 @@
-import { Prisma } from "@prisma/client";
+import { Prisma } from '@prisma/client';
 
-export class Funcionalidade implements Prisma.FuncionalidadeUncheckedCreateInput {
+export class Funcionalidade
+  implements Prisma.FuncionalidadeUncheckedCreateInput
+{
   id?: number;
   nome: string;
   descricao?: string;
