@@ -1,6 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { Prisma } from '@prisma/client';
-import { IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsInt, IsOptional, IsString } from 'class-validator';
 
 export class CreateProjetoDto {
   @IsString()
@@ -12,10 +11,7 @@ export class CreateProjetoDto {
   @ApiPropertyOptional()
   descricao?: string;
 
-  @IsNumber()
+  @IsInt()
   @ApiProperty({ description: 'ID do cliente que o projeto pertence' })
   cliente_id: number;
-
-  @IsOptional()
-  ambientes?: Prisma.AmbienteUncheckedCreateNestedManyWithoutProjetoInput;
 }

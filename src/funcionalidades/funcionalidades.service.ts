@@ -17,13 +17,6 @@ export class FuncionalidadesService {
       where: {
         id: createFuncionalidadeDto.projeto_id,
       },
-      include: {
-        ambientes: {
-          select: {
-            id: true,
-          },
-        },
-      },
     });
 
     if (!projeto) {
@@ -37,11 +30,7 @@ export class FuncionalidadesService {
       await this.prisma.funcionalidade.findFirst({
         where: {
           nome: createFuncionalidadeDto.nome,
-          funcionalidade_has_projeto_and_ambiente: {
-            some: {
-              projeto_id: createFuncionalidadeDto.projeto_id,
-            },
-          },
+          projeto_id: createFuncionalidadeDto.projeto_id,
         },
       });
 
@@ -51,41 +40,13 @@ export class FuncionalidadesService {
       );
     }
 
-    // Montando o array com as informações do relacionamento
-    const funcionalidadeHasProjetoAndAmbienteData = projeto.ambientes.map(
-      (ambiente) => {
-        return {
-          ambiente_id: ambiente.id,
-          projeto_id: createFuncionalidadeDto.projeto_id,
-          ativada: createFuncionalidadeDto.ativada || false,
-        };
-      },
-    );
-
-    delete createFuncionalidadeDto.projeto_id; // Não é mais necessário
-    const funcionalidade = await this.prisma.funcionalidade.create({
-      data: {
-        ...createFuncionalidadeDto,
-        funcionalidade_has_projeto_and_ambiente: {
-          createMany: {
-            data: funcionalidadeHasProjetoAndAmbienteData,
-          },
-        },
-      },
-      select: {
-        funcionalidade_has_projeto_and_ambiente: true,
-      },
+    return this.prisma.funcionalidade.create({
+      data: createFuncionalidadeDto,
     });
-
-    return funcionalidade;
   }
 
   async findAll() {
-    return this.prisma.funcionalidade.findMany({
-      include: {
-        funcionalidade_has_projeto_and_ambiente: true,
-      },
-    });
+    return this.prisma.funcionalidade.findMany();
   }
 
   async findOne(id: number) {

@@ -7,6 +7,6 @@ export class Projeto implements Prisma.ProjetoUncheckedCreateInput {
   descricao?: string;
   created_at?: string | Date;
   updated_at?: string | Date;
-  ambientes?: Prisma.AmbienteUncheckedCreateNestedManyWithoutProjetoInput;
-  funcionalidade_has_projeto_and_ambiente?: Prisma.FuncionalidadeHasProjetoAndAmbienteUncheckedCreateNestedManyWithoutProjetoInput;
+  agregados?: Prisma.AgregadoUncheckedCreateNestedManyWithoutProjetoInput;
+  funcionalidades?: Prisma.FuncionalidadeUncheckedCreateNestedManyWithoutProjetoInput;
 }

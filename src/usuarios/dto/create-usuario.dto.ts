@@ -3,15 +3,15 @@ import { UsuarioTipo } from '@prisma/client';
 import {
   IsEmail,
   IsEnum,
+  IsInt,
   IsNotEmpty,
-  IsNumber,
   IsOptional,
   IsString,
   MaxLength,
 } from 'class-validator';
 
 export class CreateUsuarioDto {
-  @IsNumber()
+  @IsInt()
   @IsNotEmpty()
   @ApiProperty()
   cliente_id: number;

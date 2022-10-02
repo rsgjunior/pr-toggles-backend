@@ -3,8 +3,8 @@ import { AuthModule } from './auth/auth.module';
 import { ClientesModule } from './clientes/clientes.module';
 import { ProjetosModule } from './projetos/projetos.module';
 import { FuncionalidadesModule } from './funcionalidades/funcionalidades.module';
-import { RegrasModule } from './regras/regras.module';
 import { UsuariosModule } from './usuarios/usuarios.module';
+import { EstrategiasModule } from './estrategias/estrategias.module';
 
 @Module({
   imports: [
@@ -12,8 +12,8 @@ import { UsuariosModule } from './usuarios/usuarios.module';
     ClientesModule,
     ProjetosModule,
     FuncionalidadesModule,
-    RegrasModule,
     UsuariosModule,
+    EstrategiasModule,
   ],
   controllers: [],
   providers: [],

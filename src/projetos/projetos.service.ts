@@ -25,36 +25,23 @@ export class ProjetosService {
       );
     }
 
-    const projeto = await this.prisma.projeto.findFirst({
-      where: {
-        cliente_id: createProjetoDto.cliente_id,
-        nome: createProjetoDto.nome,
-      },
-    });
+    const projetoDoMesmoClienteComMesmoNome =
+      await this.prisma.projeto.findFirst({
+        where: {
+          cliente_id: createProjetoDto.cliente_id,
+          nome: createProjetoDto.nome,
+        },
+      });
 
-    if (projeto) {
+    if (projetoDoMesmoClienteComMesmoNome) {
       throw new HttpException(
         'Já existe um projeto com o mesmo nome para esse cliente',
         HttpStatus.BAD_REQUEST,
       );
     }
 
-    // Criando os ambientes padrões
-    if (!createProjetoDto.ambientes) {
-      createProjetoDto.ambientes = {
-        create: [
-          { nome: 'Produção' },
-          { nome: 'Teste' },
-          { nome: 'Desenvolvimento' },
-        ],
-      };
-    }
-
     return this.prisma.projeto.create({
       data: createProjetoDto,
-      include: {
-        ambientes: true,
-      },
     });
   }
 
@@ -66,7 +53,6 @@ export class ProjetosService {
             id: true,
           },
         },
-        ambientes: true,
       },
     });
   }
@@ -77,7 +63,7 @@ export class ProjetosService {
     });
 
     if (!projeto) {
-      throw new NotFoundException();
+      throw new NotFoundException(`Não existe projeto com o ID ${id}`);
     }
 
     return projeto;
@@ -89,7 +75,7 @@ export class ProjetosService {
     });
 
     if (!projeto) {
-      throw new NotFoundException();
+      throw new NotFoundException(`Não existe projeto com o ID ${id}`);
     }
 
     return this.prisma.projeto.update({
@@ -104,7 +90,7 @@ export class ProjetosService {
     });
 
     if (!projeto) {
-      throw new NotFoundException();
+      throw new NotFoundException(`Não existe projeto com o ID ${id}`);
     }
 
     return this.prisma.projeto.delete({
