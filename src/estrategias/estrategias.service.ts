@@ -8,7 +8,24 @@ export class EstrategiasService {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(createEstrategiaDto: CreateEstrategiaDto) {
-    return 'This action adds a new estrategia';
+    const funcionalidade = await this.prisma.funcionalidade.findUnique({
+      where: {
+        id: createEstrategiaDto.funcionalidade_id,
+      },
+    });
+
+    if (!funcionalidade) {
+      throw new NotFoundException(
+        `Não existe funcionalidade com o ID ${createEstrategiaDto.funcionalidade_id}`,
+      );
+    }
+
+    return await this.prisma.estrategia.create({
+      data: createEstrategiaDto,
+      include: {
+        funcionalidade: true,
+      },
+    });
   }
 
   async findAll() {

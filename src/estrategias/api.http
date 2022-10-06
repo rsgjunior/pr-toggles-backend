@@ -1,0 +1,8 @@
+POST http://localhost:3000/estrategias/
+Content-Type: application/json
+
+{
+  "funcionalidade_id": 1,
+  "ambiente": "dev",
+  "valor": "teste valor"
+}

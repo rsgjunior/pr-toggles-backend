@@ -23,10 +23,20 @@ export class ProjetosController {
     return this.projetosService.create(createProjetoDto);
   }
 
+  @Get('/cliente/:clienteId')
+  @ApiOperation({ summary: 'Obter projetos de um cliente' })
+  findAllByCliente(@Param('clienteId') clienteId: string) {
+    return this.projetosService.findMany({
+      where: {
+        cliente_id: +clienteId,
+      },
+    });
+  }
+
   @Get()
-  @ApiOperation({ summary: 'Obter múltiplos projetos' })
+  @ApiOperation({ summary: 'Obtem todos os projetos' })
   findAll() {
-    return this.projetosService.findAll();
+    return this.projetosService.findMany({});
   }
 
   @Get(':id')

@@ -11,7 +11,7 @@ content-type: application/json
 {
     "nome": "test funcionalidade tres",
     "descricao": "kkkkk",
-    "ativada": true,
+    "ativada_dev": true,
     "projeto_id": 1
 }
 

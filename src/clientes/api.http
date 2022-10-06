@@ -10,7 +10,7 @@ POST http://localhost:3000/clientes
 content-type: application/json
 
 {
-    "nome": "beltrano"
+    "nome": "ciclano"
 }
 
 ###

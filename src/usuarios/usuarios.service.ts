@@ -3,6 +3,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 import * as bcrypt from 'bcrypt';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class UsuariosService {
@@ -33,26 +34,47 @@ export class UsuariosService {
     });
   }
 
-  async findAll() {
-    return this.prisma.usuario.findMany();
+  async findMany(params: { where?: Prisma.UsuarioWhereInput }) {
+    const { where } = params;
+    return await this.prisma.usuario.findMany({ where });
   }
 
-  async findOne(id: number) {
-    return this.prisma.usuario.findUnique({
-      where: { id },
-      include: {
-        cliente: true,
-      },
+  async findOne(params: {
+    where: Prisma.UsuarioWhereUniqueInput;
+    include?: Prisma.UsuarioInclude;
+  }) {
+    const { where, include } = params;
+
+    const usuario = await this.prisma.usuario.findUnique({
+      where,
+      include,
     });
+
+    if (!usuario) {
+      throw new NotFoundException(`Não encontrou usuário com o ID ${where.id}`);
+    }
+
+    return usuario;
   }
 
-  async findOneByEmail(email: string) {
-    return this.prisma.usuario.findFirst({
-      where: { email },
-      include: {
-        cliente: true,
-      },
+  async findFirst(params: {
+    where?: Prisma.UsuarioWhereInput;
+    include?: Prisma.UsuarioInclude;
+  }) {
+    const { where, include } = params;
+
+    const usuario = await this.prisma.usuario.findFirst({
+      where,
+      include,
     });
+
+    if (!usuario) {
+      throw new NotFoundException(
+        `Não encontrou usuário com os parâmetros fornecidos`,
+      );
+    }
+
+    return usuario;
   }
 
   async update(id: number, updateUsuarioDto: UpdateUsuarioDto) {

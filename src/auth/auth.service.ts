@@ -13,7 +13,7 @@ export class AuthService {
   ) {}
 
   async validateUser(email: string, senha: string): Promise<Usuario | null> {
-    const usuario = await this.usuariosService.findOneByEmail(email);
+    const usuario = await this.usuariosService.findFirst({ where: { email } });
     if (usuario) {
       if (await bcrypt.compare(senha, usuario.senha)) {
         delete usuario.senha;

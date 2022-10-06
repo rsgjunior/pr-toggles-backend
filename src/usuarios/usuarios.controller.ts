@@ -24,12 +24,21 @@ export class UsuariosController {
 
   @Get()
   findAll() {
-    return this.usuariosService.findAll();
+    return this.usuariosService.findMany({});
+  }
+
+  @Get('/cliente/:clienteId')
+  findAllByCliente(@Param('clienteId') clienteId: string) {
+    return this.usuariosService.findMany({
+      where: {
+        cliente_id: +clienteId,
+      },
+    });
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.usuariosService.findOne(+id);
+    return this.usuariosService.findOne({ where: { id: +id } });
   }
 
   @Patch(':id')

@@ -1,0 +1,21 @@
+GET http://localhost:3000/usuarios/
+
+###
+
+GET http://localhost:3000/usuarios/1
+
+
+###
+
+GET http://localhost:3000/usuarios/cliente/1
+
+###
+POST http://localhost:3000/usuarios/
+Content-Type: application/json
+
+{
+  "cliente_id": 1,
+  "nome": "Usuario de Teste",
+  "email": "test@gmail.com",
+  "tipo": "Administrador"
+}

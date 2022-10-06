@@ -4,6 +4,7 @@ import {
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateProjetoDto } from './dto/create-projeto.dto';
 import { UpdateProjetoDto } from './dto/update-projeto.dto';
@@ -45,15 +46,14 @@ export class ProjetosService {
     });
   }
 
-  async findAll() {
+  async findMany(params: {
+    where?: Prisma.ProjetoWhereInput;
+    include?: Prisma.ProjetoInclude;
+  }) {
+    const { where, include } = params;
     return this.prisma.projeto.findMany({
-      include: {
-        cliente: {
-          select: {
-            id: true,
-          },
-        },
-      },
+      where,
+      include,
     });
   }
 

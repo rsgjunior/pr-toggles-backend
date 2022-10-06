@@ -2,7 +2,11 @@ GET http://localhost:3000/projetos
 
 ###
 
-GET http://localhost:3000/projetos/2
+GET http://localhost:3000/projetos/1
+
+###
+
+GET http://localhost:3000/projetos/cliente/1
 
 ###
 
@@ -10,9 +14,9 @@ POST http://localhost:3000/projetos
 content-type: application/json
 
 {
-    "nome": "test ambiente",
+    "nome": "lorem ipsum",
     "descricao": "blablasadadsads",
-    "cliente_id": 1
+    "cliente_id": 2
 }
 
 ###
