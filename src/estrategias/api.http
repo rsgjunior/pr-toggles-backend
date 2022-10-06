@@ -6,3 +6,8 @@ Content-Type: application/json
   "ambiente": "dev",
   "valor": "teste valor"
 }
+
+
+###
+
+GET http://localhost:3000/estrategias/
