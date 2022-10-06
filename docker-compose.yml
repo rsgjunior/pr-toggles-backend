@@ -20,7 +20,7 @@ services:
     volumes:
       - .:/app/
       - /app/node_modules/
-    command: npm run start:debug
+    command: npm run start:docker:debug
     ports:
       - "3000:3000"
 
