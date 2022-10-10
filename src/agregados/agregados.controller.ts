@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { AgregadosService } from './agregados.service';
 import { CreateAgregadoDto } from './dto/create-agregado.dto';
 import { UpdateAgregadoDto } from './dto/update-agregado.dto';
@@ -23,7 +31,10 @@ export class AgregadosController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAgregadoDto: UpdateAgregadoDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateAgregadoDto: UpdateAgregadoDto,
+  ) {
     return this.agregadosService.update(+id, updateAgregadoDto);
   }
 
