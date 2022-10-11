@@ -1,6 +1,8 @@
+type AllowedOperators = '<' | '>' | '==' | '>=' | '<=';
+
 interface Regra {
   key: string;
-  operation: string;
+  operation: AllowedOperators;
   value: string | number | Array<any>;
 }
 
