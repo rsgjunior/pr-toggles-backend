@@ -1,4 +1,4 @@
-type AllowedOperators = '<' | '>' | '==' | '>=' | '<=';
+type AllowedOperators = '<' | '>' | '==' | '===' | '>=' | '<=' | 'includes';
 
 interface Regra {
   key: string;
@@ -39,6 +39,43 @@ const contexto = {
 
 console.log('Contexto: ', contexto);
 
+class OperatorRule {
+  #allowedTypes: string[] | undefined;
+  #allowedInstanceOf: any;
+
+  constructor(
+    allowedTypes: string[] | undefined = undefined,
+    allowedInstanceOf = undefined,
+  ) {
+    this.#allowedTypes = allowedTypes;
+    this.#allowedInstanceOf = allowedInstanceOf;
+  }
+}
+
+function validarTipoDoValorDoContexto(
+  value: any,
+  operation: AllowedOperators,
+): boolean {
+  const newRule = (allowedTypes = undefined, allowedInstanceOf = undefined) => {
+    return new OperatorRule(allowedTypes, allowedInstanceOf);
+  };
+
+  const rules = {
+    '>': [new OperatorRule(['number'])],
+    '<': [new OperatorRule(['number'])],
+    '>=': [new OperatorRule(['number'])],
+    '<=': [new OperatorRule(['number'])],
+    '==': [],
+    '===': [],
+    includes: [
+      new OperatorRule(['string']),
+      new OperatorRule(['object'], [Array]),
+    ],
+  };
+
+  return false;
+}
+
 function validarRegra(regra: Regra, contexto: object): boolean {
   const { key, operation, value } = regra;
 
@@ -55,6 +92,8 @@ function validarRegra(regra: Regra, contexto: object): boolean {
       return valorNoContexto < value;
     case '==':
       return valorNoContexto == value;
+    case '===':
+      return valorNoContexto === value;
     case '>=':
       return valorNoContexto >= value;
     case '<=':
