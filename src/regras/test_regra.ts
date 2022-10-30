@@ -29,12 +29,21 @@ agregado.push([
   },
 ]);
 
+agregado.push([
+  {
+    key: 'role',
+    operation: 'includes',
+    value: 'sysadmin',
+  },
+]);
+
 console.log('Agregado de regras: ', agregado);
 
 const contexto = {
-  idade: 14,
+  idade: '15',
   nome: 'Ciclano',
   id: 2,
+  role: ['sysadmin', 'moderador', 'usuario'],
 };
 
 console.log('Contexto: ', contexto);
@@ -57,9 +66,11 @@ class OperatorRule implements OperatorRuleInterface {
     console.log('testRule', value);
     console.log('allowedTypes', this.allowedTypes);
     console.log('allowedInstanceOf', this.allowedInstanceOf);
+    console.log('typeof value', typeof value);
 
     if (this.allowedTypes.length && !this.allowedTypes.includes(typeof value)) {
       console.log('type false');
+      // should throw exception
       return false;
     }
 
@@ -68,9 +79,11 @@ class OperatorRule implements OperatorRuleInterface {
       !this.allowedInstanceOf.some((e) => value instanceof e)
     ) {
       console.log('instance false');
+      // should throw exception
       return false;
     }
 
+    console.log('testRule TRUE');
     return true;
   }
 }
@@ -79,6 +92,8 @@ function validarTipoDoValorDoContexto(
   value: any,
   operation: AllowedOperators,
 ): boolean {
+  console.log('validarTipoDoValorDoContexto', value, operation);
+
   const allOperatorsRules = {
     '>': [new OperatorRule(['number'])],
     '<': [new OperatorRule(['number'])],
@@ -95,7 +110,10 @@ function validarTipoDoValorDoContexto(
 
   const rulesForThisOperation = allOperatorsRules[operation];
 
-  if (!rulesForThisOperation.some((rule) => rule.testRule(value))) {
+  if (
+    rulesForThisOperation.length &&
+    !rulesForThisOperation.some((rule) => rule.testRule(value))
+  ) {
     return false;
   }
 
@@ -103,6 +121,8 @@ function validarTipoDoValorDoContexto(
 }
 
 function validarRegra(regra: Regra, contexto: object): boolean {
+  console.log('validarRegra', regra, contexto);
+
   const { key, operation, value } = regra;
 
   if (!(key in contexto)) {
@@ -112,7 +132,6 @@ function validarRegra(regra: Regra, contexto: object): boolean {
   const valorNoContexto = contexto[key];
 
   if (!validarTipoDoValorDoContexto(valorNoContexto, operation)) {
-    console.log('validarTipoDoValorDoContexto false');
     return false;
   }
 
@@ -130,7 +149,7 @@ function validarRegra(regra: Regra, contexto: object): boolean {
     case '<=':
       return valorNoContexto <= value;
     case 'includes':
-      return value.includes(valorNoContexto);
+      return valorNoContexto.includes(value);
     default:
       console.log('operador não registrado');
   }

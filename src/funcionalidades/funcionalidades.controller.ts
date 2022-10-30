@@ -25,9 +25,13 @@ export class FuncionalidadesController {
     return this.funcionalidadesService.create(createFuncionalidadeDto);
   }
 
-  @Get()
-  findAll() {
-    return this.funcionalidadesService.findAll();
+  @Get('/projeto/:projeto_id')
+  findAllForProjeto(@Param('projeto_id') projeto_id: string) {
+    return this.funcionalidadesService.findMany({
+      where: {
+        projeto_id: +projeto_id,
+      },
+    });
   }
 
   @Get(':id')

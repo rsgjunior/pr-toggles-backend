@@ -14,9 +14,9 @@ POST http://localhost:3000/projetos
 content-type: application/json
 
 {
-    "nome": "lorem ipsum",
+    "nome": "Barbearia",
     "descricao": "blablasadadsads",
-    "cliente_id": 2
+    "cliente_id": 1
 }
 
 ###

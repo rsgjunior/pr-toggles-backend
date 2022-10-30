@@ -6,13 +6,20 @@
   "configurations": [
     {
       "type": "node",
+      "request": "launch",
+      "name": "test_regra",
+      "program": "${workspaceFolder}/src/agregados/test_regra.ts",
+      "runtimeArgs": ["-r", "ts-node/register", "-r", "tsconfig-paths/register"],
+      "outFiles": ["${workspaceFolder}/**/*.js"],
+      "console": "integratedTerminal"
+    },
+    {
+      "type": "node",
       "request": "attach",
       "name": "debug nestjs",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
+      "skipFiles": ["<node_internals>/**"],
       "envFile": "${workspaceFolder}/.env",
-      "cwd": "${workspaceFolder}",
+      "cwd": "${workspaceFolder}"
     }
   ]
 }

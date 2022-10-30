@@ -1,18 +1,17 @@
 ### GET ALL
-GET http://localhost:3000/funcionalidades
-
-### GET ONE BY ID
 GET http://localhost:3000/funcionalidades/1
+
+### GET ALL BY PROJETO
+GET http://localhost:3000/funcionalidades/projeto/2
 
 ### CREATE
 POST http://localhost:3000/funcionalidades
 content-type: application/json
 
 {
-    "nome": "test funcionalidade tres",
-    "descricao": "kkkkk",
-    "ativada_dev": true,
-    "projeto_id": 1
+    "nome": "agendamento online",
+    "descricao": "",
+    "projeto_id": 2
 }
 
 ### UPDATE

@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { estrategia_ambiente } from '@prisma/client';
+import { Ambientes } from '@prisma/client';
 import {
   IsDefined,
   IsEnum,
@@ -17,9 +17,9 @@ export class CreateEstrategiaDto {
   })
   funcionalidade_id: number;
 
-  @IsEnum(estrategia_ambiente)
+  @IsEnum(Ambientes)
   @IsNotEmpty()
-  ambiente: estrategia_ambiente;
+  ambiente: Ambientes;
 
   @IsOptional()
   valor?: string;

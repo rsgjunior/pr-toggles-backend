@@ -1,9 +1,9 @@
-import { estrategia_ambiente, Prisma } from '@prisma/client';
+import { Ambientes, Prisma } from '@prisma/client';
 
 export class Estrategia implements Prisma.EstrategiaUncheckedCreateInput {
   id?: number;
   funcionalidade_id: number;
-  ambiente: estrategia_ambiente;
+  ambiente: Ambientes;
   valor?: string;
   variacoes?: string;
   created_at?: string | Date;

@@ -6,6 +6,7 @@ import { FuncionalidadesModule } from './funcionalidades/funcionalidades.module'
 import { UsuariosModule } from './usuarios/usuarios.module';
 import { EstrategiasModule } from './estrategias/estrategias.module';
 import { AgregadosModule } from './agregados/agregados.module';
+import { RegrasModule } from './regras/regras.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { AgregadosModule } from './agregados/agregados.module';
     UsuariosModule,
     EstrategiasModule,
     AgregadosModule,
+    RegrasModule,
   ],
   controllers: [],
   providers: [],

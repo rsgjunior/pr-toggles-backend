@@ -19,11 +19,13 @@ async function bootstrap() {
     .setTitle('PR Toggles')
     .setDescription('API para um sistema de feature toggle.')
     .setVersion('1.0')
+    .addTag('usuarios')
     .addTag('clientes')
     .addTag('projetos')
     .addTag('funcionalidades')
+    .addTag('estrategias')
     .addTag('regras')
-    .addTag('usuarios')
+    .addTag('agregados')
     .addTag('auth')
     .build();
   const document = SwaggerModule.createDocument(app, config);

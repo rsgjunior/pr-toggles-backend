@@ -11,3 +11,7 @@ Content-Type: application/json
 ###
 
 GET http://localhost:3000/estrategias/
+
+###
+
+GET http://localhost:3000/estrategias/funcionalidade/5/ambiente/prod

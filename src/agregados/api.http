@@ -1,0 +1,30 @@
+POST http://localhost:3000/agregados
+Content-Type: application/json
+
+{
+  "nome": "agreg",
+  "descricao": "teste",
+  "estrategia_has_agregado": {
+    "create": {
+      "ativado": false,
+      "estrategia": {
+        "connect": {
+          "id": 1
+        }
+      }
+    }
+  },
+  "regras": [
+    [
+      {
+        "key": "nome",
+        "operation": "==",
+        "value": "Ciclano"
+      }
+    ]
+  ]
+}
+
+###
+
+GET http://localhost:3000/agregados/estrategia/2

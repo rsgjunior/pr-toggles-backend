@@ -37,7 +37,7 @@ model Cliente {
 model Estrategia {
   id                      Int                     @id @default(autoincrement()) @map("estrategia_id")
   funcionalidade_id       Int
-  ambiente                estrategia_ambiente
+  ambiente                Ambientes
   valor                   String?                 @db.Text
   variacoes               String?                 @db.LongText
   created_at              DateTime                @default(now()) @db.Timestamp(0)
@@ -92,6 +92,7 @@ model Projeto {
   updated_at      DateTime         @default(now()) @updatedAt @db.Timestamp(0)
   cliente         Cliente          @relation(fields: [cliente_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_projetos_clientes1")
   agregados       Agregado[]       @relation("agregadoToprojeto")
+  chave           Chave[]          @relation("chaveToprojeto")
   funcionalidades Funcionalidade[] @relation("funcionalidadeToprojeto")
 
   @@index([cliente_id], map: "fk_projetos_clientes1_idx")
@@ -113,12 +114,24 @@ model Usuario {
   @@map("usuario")
 }
 
+model Chave {
+  id   String         @id @db.VarChar(512) @map("chave_id")
+  projeto_id Int
+  ambiente   Ambientes
+  created_at DateTime       @default(now()) @db.Timestamp(0)
+  updated_at DateTime       @default(now()) @updatedAt @db.Timestamp(0)
+  projeto    Projeto        @relation("chaveToprojeto", fields: [projeto_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_chave_projeto1")
+
+  @@index([projeto_id], map: "fk_chave_projeto1_idx")
+  @@map("chave")
+}
+
 enum UsuarioTipo {
   Administrador
   Usuario
 }
 
-enum estrategia_ambiente {
+enum Ambientes {
   prod
   homolog
   dev

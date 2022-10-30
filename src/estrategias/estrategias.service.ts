@@ -1,4 +1,5 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateEstrategiaDto } from './dto/create-estrategia.dto';
 import { UpdateEstrategiaDto } from './dto/update-estrategia.dto';
@@ -32,14 +33,40 @@ export class EstrategiasService {
     });
   }
 
-  async findAll() {
-    this.logger.log('findAll');
+  async findMany(
+    params: {
+      where?: Prisma.EstrategiaWhereInput;
+      include?: Prisma.EstrategiaInclude;
+    } = {},
+  ) {
+    this.logger.log('findMany');
 
-    return await this.prisma.estrategia.findMany();
+    const { where, include } = params;
+
+    return await this.prisma.estrategia.findMany({
+      where,
+      include,
+    });
   }
 
-  async findOne(id: number) {
-    this.logger.log('findOne');
+  async findOneFiltered(
+    params: {
+      where?: Prisma.EstrategiaWhereInput;
+      include?: Prisma.EstrategiaInclude;
+    } = {},
+  ) {
+    this.logger.log('findOneFiltered');
+
+    const { where, include } = params;
+
+    return await this.prisma.estrategia.findFirst({
+      where,
+      include,
+    });
+  }
+
+  async findOneById(id: number) {
+    this.logger.log('findOneById');
 
     return await this.prisma.estrategia.findUnique({
       where: { id },
