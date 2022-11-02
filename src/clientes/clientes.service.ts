@@ -1,33 +1,100 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  BadRequestException,
+  ForbiddenException,
+  Logger,
+} from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateClienteDto } from './dto/create-cliente.dto';
 import { UpdateClienteDto } from './dto/update-cliente.dto';
+import * as bcrypt from 'bcrypt';
+import { JwtService } from '@nestjs/jwt';
+import { jwtPayload } from 'src/auth/interfaces';
 
 @Injectable()
 export class ClientesService {
-  constructor(private readonly prisma: PrismaService) {}
-  create(createClienteDto: CreateClienteDto) {
-    return this.prisma.cliente.create({
-      data: createClienteDto,
+  private readonly logger = new Logger(ClientesService.name);
+
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly jwtService: JwtService,
+  ) {}
+
+  async create(createClienteDto: CreateClienteDto) {
+    this.logger.log('create');
+
+    if (createClienteDto.senha !== createClienteDto.confirmacao_senha) {
+      throw new BadRequestException(
+        'A confirmação da senha é diferente da senha inserida',
+      );
+    }
+
+    const usuarioComMesmoEmail = await this.prisma.usuario.findFirst({
+      where: {
+        email: createClienteDto.email,
+      },
     });
+
+    if (usuarioComMesmoEmail) {
+      throw new ForbiddenException(
+        `Já existe um usuário com o email ${createClienteDto.email}`,
+      );
+    }
+
+    const hashSenha = await bcrypt.hash(createClienteDto.senha, 10);
+
+    const data: Prisma.ClienteCreateInput = {
+      nome: createClienteDto.nome_cliente,
+      descricao: createClienteDto.descricao,
+      usuarios: {
+        create: {
+          email: createClienteDto.email,
+          nome: createClienteDto.nome_usuario,
+          senha: hashSenha,
+          tipo: 'Administrador',
+        },
+      },
+    };
+
+    const cliente = await this.prisma.cliente.create({
+      data,
+      include: {
+        usuarios: true,
+      },
+    });
+
+    const usuario = cliente.usuarios[0];
+
+    const payload: jwtPayload = {
+      email: usuario.email,
+      sub: usuario.id,
+      name: usuario.nome,
+      cliente_id: usuario.cliente_id,
+    };
+
+    return {
+      accessToken: this.jwtService.sign(payload),
+      name: cliente.nome,
+    };
   }
 
-  findAll() {
+  async findAll() {
     return this.prisma.cliente.findMany();
   }
 
-  findOne(id: number) {
+  async findOne(id: number) {
     return this.prisma.cliente.findUnique({ where: { id } });
   }
 
-  update(id: number, updateClienteDto: UpdateClienteDto) {
+  async update(id: number, updateClienteDto: UpdateClienteDto) {
     return this.prisma.cliente.update({
       where: { id },
       data: updateClienteDto,
     });
   }
 
-  remove(id: number) {
+  async remove(id: number) {
     return this.prisma.cliente.delete({
       where: { id },
     });

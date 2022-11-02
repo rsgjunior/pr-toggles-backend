@@ -7,6 +7,8 @@ import { PrismaService } from './prisma/prisma.service';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  app.setGlobalPrefix('api');
+
   // Global pipe for class-validator
   app.useGlobalPipes(new ValidationPipe());
 

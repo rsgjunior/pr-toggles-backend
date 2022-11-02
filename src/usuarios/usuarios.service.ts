@@ -57,26 +57,6 @@ export class UsuariosService {
     return usuario;
   }
 
-  async findFirst(params: {
-    where?: Prisma.UsuarioWhereInput;
-    include?: Prisma.UsuarioInclude;
-  }) {
-    const { where, include } = params;
-
-    const usuario = await this.prisma.usuario.findFirst({
-      where,
-      include,
-    });
-
-    if (!usuario) {
-      throw new NotFoundException(
-        `Não encontrou usuário com os parâmetros fornecidos`,
-      );
-    }
-
-    return usuario;
-  }
-
   async update(id: number, updateUsuarioDto: UpdateUsuarioDto) {
     const usuario = await this.prisma.usuario.findUnique({
       where: { id },
