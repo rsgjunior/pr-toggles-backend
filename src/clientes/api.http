@@ -6,13 +6,13 @@ GET http://localhost:3000/clientes/1
 
 ###
 
-POST http://localhost:3000/clientes
+POST http://localhost:3000/api/clientes
 content-type: application/json
 
 {
-    "nome_cliente": "pedro lan house",
-    "nome_usuario": "Fulano da Silva",
-    "email": "fulano@gmail.com",
+    "nome_cliente": "ciclana make up",
+    "nome_usuario": "Ciclana da Silva",
+    "email": "ciclana@gmail.com",
     "senha": "123",
     "confirmacao_senha": "123"
 }

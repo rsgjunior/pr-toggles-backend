@@ -31,6 +31,9 @@ export class FuncionalidadesController {
       where: {
         projeto_id: +projeto_id,
       },
+      include: {
+        estrategias: true,
+      },
     });
   }
 

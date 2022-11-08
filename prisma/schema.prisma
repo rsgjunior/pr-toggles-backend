@@ -10,9 +10,9 @@ datasource db {
 model Agregado {
   id                      Int                     @id @default(autoincrement()) @map("agregado_id")
   projeto_id              Int?
-  nome                    String                  @db.VarChar(45)
+  nome                    String?                 @db.VarChar(45)
   descricao               String?                 @db.Text
-  regras                  String?                 @db.LongText
+  regras                  Json                    @db.Json
   created_at              DateTime                @default(now()) @db.Timestamp(0)
   updated_at              DateTime                @default(now()) @updatedAt @db.Timestamp(0)
   projeto                 Projeto?                @relation("agregadoToprojeto", fields: [projeto_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_agregado_projeto1")
@@ -55,7 +55,7 @@ model EstrategiaHasAgregado {
   agregado_id   Int
   ativado       Boolean    @default(false)
   valor         String?    @db.Text
-  variacoes     String?    @db.LongText
+  variacoes     Json?      @db.Json
   created_at    DateTime   @default(now()) @db.Timestamp(0)
   updated_at    DateTime   @default(now()) @db.Timestamp(0)
   agregado      Agregado   @relation(fields: [agregado_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_estrategias_has_agregados_agregados1")
@@ -103,7 +103,7 @@ model Usuario {
   id         Int         @id @default(autoincrement()) @map("usuario_id")
   cliente_id Int
   nome       String      @db.VarChar(256)
-  email      String      @db.VarChar(128)
+  email      String      @db.VarChar(128) @unique
   tipo       UsuarioTipo
   senha      String?     @db.VarChar(256)
   created_at DateTime    @default(now()) @db.Timestamp(0)

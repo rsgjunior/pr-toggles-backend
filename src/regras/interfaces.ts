@@ -1,4 +1,5 @@
 type AllowedOperators = '<' | '>' | '==' | '===' | '>=' | '<=' | 'includes';
+type AgregadoDeRegras = Regra[][];
 
 interface Regra {
   key: string;
@@ -6,4 +7,4 @@ interface Regra {
   value: any;
 }
 
-export { AllowedOperators, Regra };
+export { AllowedOperators, Regra, AgregadoDeRegras };

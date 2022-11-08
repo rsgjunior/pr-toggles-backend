@@ -2,11 +2,11 @@ GET http://localhost:3000/projetos
 
 ###
 
-GET http://localhost:3000/projetos/1
+GET http://localhost:3000/api/projetos/1
 
 ###
 
-GET http://localhost:3000/projetos/cliente/1
+GET http://localhost:3000/api/projetos/cliente/1
 
 ###
 

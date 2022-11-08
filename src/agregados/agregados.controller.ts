@@ -35,6 +35,15 @@ export class AgregadosController {
     });
   }
 
+  @Get('/projeto/:projeto_id')
+  findAllForProjeto(@Param('projeto_id') projeto_id: string) {
+    return this.agregadosService.findMany({
+      where: {
+        projeto_id: +projeto_id,
+      },
+    });
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.agregadosService.findOne(+id);

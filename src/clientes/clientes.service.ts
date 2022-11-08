@@ -1,7 +1,7 @@
 import {
   Injectable,
   BadRequestException,
-  ForbiddenException,
+  ConflictException,
   Logger,
 } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
@@ -9,8 +9,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateClienteDto } from './dto/create-cliente.dto';
 import { UpdateClienteDto } from './dto/update-cliente.dto';
 import * as bcrypt from 'bcrypt';
-import { JwtService } from '@nestjs/jwt';
-import { jwtPayload } from 'src/auth/interfaces';
+import { AuthService } from 'src/auth/auth.service';
 
 @Injectable()
 export class ClientesService {
@@ -18,7 +17,7 @@ export class ClientesService {
 
   constructor(
     private readonly prisma: PrismaService,
-    private readonly jwtService: JwtService,
+    private readonly authService: AuthService,
   ) {}
 
   async create(createClienteDto: CreateClienteDto) {
@@ -37,7 +36,7 @@ export class ClientesService {
     });
 
     if (usuarioComMesmoEmail) {
-      throw new ForbiddenException(
+      throw new ConflictException(
         `Já existe um usuário com o email ${createClienteDto.email}`,
       );
     }
@@ -66,17 +65,7 @@ export class ClientesService {
 
     const usuario = cliente.usuarios[0];
 
-    const payload: jwtPayload = {
-      email: usuario.email,
-      sub: usuario.id,
-      name: usuario.nome,
-      cliente_id: usuario.cliente_id,
-    };
-
-    return {
-      accessToken: this.jwtService.sign(payload),
-      name: cliente.nome,
-    };
+    return await this.authService.login(usuario);
   }
 
   async findAll() {

@@ -1,12 +1,13 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { Prisma } from '@prisma/client';
 import {
   IsArray,
+  IsBoolean,
   IsInt,
   IsNotEmpty,
   IsOptional,
   IsString,
 } from 'class-validator';
+import { AgregadoDeRegras } from 'src/regras/interfaces';
 
 export class CreateAgregadoDto {
   @IsOptional()
@@ -14,10 +15,15 @@ export class CreateAgregadoDto {
   @ApiPropertyOptional()
   projeto_id?: number;
 
+  @IsOptional()
+  @IsInt()
+  @ApiPropertyOptional()
+  estrategia_id?: number;
+
   @IsString()
   @IsNotEmpty()
-  @ApiProperty()
-  nome: string;
+  @ApiPropertyOptional()
+  nome?: string;
 
   @IsString()
   @IsNotEmpty()
@@ -25,11 +31,20 @@ export class CreateAgregadoDto {
   descricao?: string;
 
   @IsArray({ each: true })
+  @ApiProperty()
+  regras: AgregadoDeRegras;
+
+  @IsString()
   @IsOptional()
   @ApiPropertyOptional()
-  regras?: string;
+  valor?: string;
 
   @IsOptional()
   @ApiPropertyOptional()
-  estrategia_has_agregado?: Prisma.EstrategiaHasAgregadoUncheckedCreateNestedManyWithoutAgregadoInput;
+  variacoes?: object;
+
+  @IsBoolean()
+  @IsOptional()
+  @ApiPropertyOptional()
+  ativado?: boolean;
 }

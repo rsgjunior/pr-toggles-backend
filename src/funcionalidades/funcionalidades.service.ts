@@ -46,8 +46,12 @@ export class FuncionalidadesService {
       );
     }
 
-    const { projeto_id } = createFuncionalidadeDto;
+    const { projeto_id, valor, variacoes } = createFuncionalidadeDto;
+    const variacoesStr = JSON.stringify(variacoes);
+
     delete createFuncionalidadeDto.projeto_id;
+    delete createFuncionalidadeDto.valor;
+    delete createFuncionalidadeDto.variacoes;
 
     const data: Prisma.FuncionalidadeCreateInput = {
       ...createFuncionalidadeDto,
@@ -59,9 +63,9 @@ export class FuncionalidadesService {
       estrategias: {
         createMany: {
           data: [
-            { ambiente: 'dev' },
-            { ambiente: 'homolog' },
-            { ambiente: 'prod' },
+            { ambiente: 'dev', valor: valor, variacoes: variacoesStr },
+            { ambiente: 'homolog', valor: valor, variacoes: variacoesStr },
+            { ambiente: 'prod', valor: valor, variacoes: variacoesStr },
           ],
         },
       },
@@ -82,6 +86,21 @@ export class FuncionalidadesService {
     this.logger.log('findMany');
 
     const { where, include } = params;
+
+    // Se veio um projeto_id no payload verifica se ele existe
+    if ('projeto_id' in where) {
+      const projeto = await this.prisma.projeto.findUnique({
+        where: {
+          id: +where.projeto_id,
+        },
+      });
+
+      if (!projeto) {
+        throw new NotFoundException(
+          `Não existe projeto com o ID ${where.projeto_id}`,
+        );
+      }
+    }
 
     return await this.prisma.funcionalidade.findMany({
       where,

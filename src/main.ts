@@ -1,7 +1,8 @@
 import { ValidationPipe } from '@nestjs/common';
-import { NestFactory } from '@nestjs/core';
+import { NestFactory, HttpAdapterHost } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+import { PrismaClientExceptionFilter } from './prisma-client-exception.filter';
 import { PrismaService } from './prisma/prisma.service';
 
 async function bootstrap() {
@@ -10,7 +11,12 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
 
   // Global pipe for class-validator
-  app.useGlobalPipes(new ValidationPipe());
+  // whitelist remove unknow properties from the DTO
+  app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
+
+  // Global Filter
+  const { httpAdapter } = app.get(HttpAdapterHost);
+  app.useGlobalFilters(new PrismaClientExceptionFilter(httpAdapter));
 
   // Shutdown hook for Prisma
   const prismaService = app.get(PrismaService);

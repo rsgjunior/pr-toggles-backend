@@ -1,4 +1,5 @@
 type AllowedOperators = '<' | '>' | '==' | '===' | '>=' | '<=' | 'includes';
+type Agregado = Regra[][];
 
 interface Regra {
   key: string;
@@ -6,7 +7,7 @@ interface Regra {
   value: any;
 }
 
-const agregado: Array<Array<Regra>> = [];
+const agregado: Agregado = [];
 
 agregado.push([
   {

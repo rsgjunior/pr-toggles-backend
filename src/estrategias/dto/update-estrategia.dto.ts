@@ -1,4 +1,7 @@
-import { PartialType } from '@nestjs/swagger';
+import { PickType } from '@nestjs/swagger';
 import { CreateEstrategiaDto } from './create-estrategia.dto';
 
-export class UpdateEstrategiaDto extends PartialType(CreateEstrategiaDto) {}
+export class UpdateEstrategiaDto extends PickType(CreateEstrategiaDto, [
+  'valor',
+  'variacoes',
+] as const) {}
