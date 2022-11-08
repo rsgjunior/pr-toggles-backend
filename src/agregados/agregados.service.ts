@@ -24,6 +24,7 @@ export class AgregadosService {
     }
 
     const { projeto_id, regras } = createAgregadoDto;
+    delete createAgregadoDto.projeto_id;
 
     // Inicia a construção do obj com os dados em comum
     const data: Prisma.AgregadoCreateInput = {
