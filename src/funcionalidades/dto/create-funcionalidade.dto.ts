@@ -2,7 +2,7 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
   IsBoolean,
   IsInt,
-  IsObject,
+  IsArray,
   IsOptional,
   IsString,
 } from 'class-validator';
@@ -41,7 +41,7 @@ export class CreateFuncionalidadeDto {
   valor?: string;
 
   @IsOptional()
-  @IsObject()
+  @IsArray()
   @ApiPropertyOptional()
   variacoes?: object;
 }

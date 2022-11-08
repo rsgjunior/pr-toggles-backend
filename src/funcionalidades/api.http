@@ -9,9 +9,16 @@ POST http://localhost:3000/api/funcionalidades
 content-type: application/json
 
 {
-    "nome": "testando novamente",
-    "descricao": "",
-    "projeto_id": 2
+    "nome": "funcionalidade_da_verdade",
+    "descricao": "a verdade é agora",
+    "projeto_id": 1,
+    "valor": "true",
+    "variacoes": [
+      {
+        "valor": "false",
+        "peso": 50
+      }
+    ]
 }
 
 ### UPDATE

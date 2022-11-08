@@ -1,24 +1,18 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
   IsArray,
-  IsBoolean,
   IsInt,
   IsNotEmpty,
-  IsOptional,
+  IsPositive,
   IsString,
 } from 'class-validator';
 import { AgregadoDeRegras } from 'src/regras/interfaces';
 
 export class CreateAgregadoDto {
-  @IsOptional()
+  @IsPositive()
   @IsInt()
-  @ApiPropertyOptional()
-  projeto_id?: number;
-
-  @IsOptional()
-  @IsInt()
-  @ApiPropertyOptional()
-  estrategia_id?: number;
+  @ApiProperty()
+  projeto_id: number;
 
   @IsString()
   @IsNotEmpty()
@@ -33,18 +27,4 @@ export class CreateAgregadoDto {
   @IsArray({ each: true })
   @ApiProperty()
   regras: AgregadoDeRegras;
-
-  @IsString()
-  @IsOptional()
-  @ApiPropertyOptional()
-  valor?: string;
-
-  @IsOptional()
-  @ApiPropertyOptional()
-  variacoes?: object;
-
-  @IsBoolean()
-  @IsOptional()
-  @ApiPropertyOptional()
-  ativado?: boolean;
 }

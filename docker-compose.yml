@@ -12,18 +12,3 @@ services:
       MYSQL_DATABASE: prtoggles
     ports:
       - '3306:3306'
-  api:
-    container_name: pr-toggles-backend-container
-    build:
-      context: .
-      dockerfile: Dockerfile
-    volumes:
-      - .:/app/
-      - /app/node_modules/
-    command: npm run start:debug
-    ports:
-      - "3000:3000"
-
-    restart: unless-stopped
-    depends_on:
-      - database

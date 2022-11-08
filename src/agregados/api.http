@@ -3,7 +3,7 @@ Content-Type: application/json
 
 {
   "nome": "agreg",
-  "estrategia_id": 1,
+  "projeto_id": 1,
   "descricao": "teste",
   "regras": [
     [
@@ -23,3 +23,33 @@ GET http://localhost:3000/api/agregados/estrategia/2
 ###
 
 GET http://localhost:3000/api/agregados/projeto/1
+
+###
+
+PATCH http://localhost:3000/api/agregados/1
+Content-Type: application/json
+
+{
+  "nome": "updated",
+  "regras": [
+    [
+      {
+        "key": "nome",
+        "operation": "==",
+        "value": "Fulano"
+      },
+      {
+        "key": "estado",
+        "operation": "==",
+        "value": "rj"
+      }
+    ],
+    [
+      {
+        "key": "nome",
+        "operation": "==",
+        "value": "Admin"
+      }
+    ]
+  ]
+}
