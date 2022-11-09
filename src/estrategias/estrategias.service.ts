@@ -105,4 +105,31 @@ export class EstrategiasService {
       where: { id },
     });
   }
+
+  async findAllEstrategiaHasAgregado(id: number) {
+    this.logger.log('findAllEstrategiaHasAgregado');
+
+    const estrategia = await this.prisma.estrategia.findUnique({
+      where: { id },
+    });
+
+    if (!estrategia) {
+      throw new NotFoundException(`Não existe estratégia com o ID ${id}`);
+    }
+
+    const estrategiaHasAgregado =
+      await this.prisma.estrategiaHasAgregado.findFirst({
+        where: {
+          estrategia_id: id,
+        },
+      });
+
+    if (!estrategiaHasAgregado) {
+      throw new NotFoundException(
+        `Não existe estrategiaHasAgregado para a estratégia ID ${id}`,
+      );
+    }
+
+    return estrategiaHasAgregado;
+  }
 }

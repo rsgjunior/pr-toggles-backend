@@ -42,4 +42,9 @@ export class EstrategiasController {
   ) {
     return this.estrategiasService.update(+id, updateEstrategiaDto);
   }
+
+  @Get('/:id/agregados/')
+  findAllEstrategiaHasAgregado(@Param('id') id: string) {
+    return this.estrategiasService.findAllEstrategiaHasAgregado(+id);
+  }
 }
