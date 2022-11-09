@@ -39,7 +39,7 @@ model Estrategia {
   funcionalidade_id       Int
   ambiente                Ambientes
   valor                   String?                 @db.Text
-  variacoes               String?                 @db.LongText
+  variacoes               Json?                   @db.Json
   created_at              DateTime                @default(now()) @db.Timestamp(0)
   updated_at              DateTime                @default(now()) @updatedAt @db.Timestamp(0)
   funcionalidade          Funcionalidade          @relation(fields: [funcionalidade_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_estrategias_funcionalidades1")
