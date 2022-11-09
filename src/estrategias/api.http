@@ -1,4 +1,4 @@
-POST http://localhost:3000/estrategias/
+POST http://localhost:3000/api/estrategias/
 Content-Type: application/json
 
 {
@@ -20,3 +20,25 @@ GET http://localhost:3000/estrategias/funcionalidade/5/ambiente/prod
 ###
 
 GET http://localhost:3000/api/estrategias/1/agregados
+
+
+###
+
+PATCH http://localhost:3000/api/estrategias/hasAgregado
+Content-Type: application/json
+
+{
+  "agregado_id": 1,
+  "estrategia_id": 3,
+  "valor": "false",
+  "ativado": false
+}
+
+###
+
+PATCH http://localhost:3000/api/estrategias/1
+Content-Type: application/json
+
+{
+  "valor": "fodase"
+}

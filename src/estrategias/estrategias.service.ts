@@ -2,6 +2,7 @@ import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateEstrategiaDto } from './dto/create-estrategia.dto';
+import { CreateOrUpdateEstrategiaHasAgregadoDto } from './dto/create-update-estrategia-has-agregado.dto';
 import { UpdateEstrategiaDto } from './dto/update-estrategia.dto';
 
 @Injectable()
@@ -131,5 +132,69 @@ export class EstrategiasService {
     }
 
     return estrategiaHasAgregado;
+  }
+
+  async createOrUpdateEstrategiaHasAgregado(
+    createOrUpdateEstrategiaHasAgregadoDto: CreateOrUpdateEstrategiaHasAgregadoDto,
+  ) {
+    this.logger.log('createOrUpdateEstrategiaHasAgregado');
+
+    const { estrategia_id, agregado_id, valor, variacoes, ativado } =
+      createOrUpdateEstrategiaHasAgregadoDto;
+
+    const estrategia = await this.prisma.estrategia.findUnique({
+      where: {
+        id: estrategia_id,
+      },
+      include: {
+        estrategia_has_agregado: true,
+      },
+    });
+
+    if (!estrategia) {
+      throw new NotFoundException(
+        `Não existe estrategia com o ID ${estrategia_id}`,
+      );
+    }
+
+    const agregado = this.prisma.agregado.findUnique({
+      where: {
+        id: agregado_id,
+      },
+    });
+
+    if (!agregado) {
+      throw new NotFoundException(
+        `Não existe agregado com o ID ${agregado_id}`,
+      );
+    }
+
+    if (estrategia.estrategia_has_agregado.length) {
+      this.logger.log(
+        `Estratégia ${estrategia_id} tem agregado, irá atualizar`,
+      );
+      return await this.prisma.estrategiaHasAgregado.update({
+        where: {
+          id: estrategia.estrategia_has_agregado[0].id,
+        },
+        data: {
+          ativado,
+          valor,
+          variacoes,
+        },
+      });
+    }
+
+    this.logger.log(`Estratégia ${estrategia_id} não tem agregado, irá criar`);
+
+    return await this.prisma.estrategiaHasAgregado.create({
+      data: {
+        estrategia_id,
+        agregado_id,
+        ativado,
+        valor,
+        variacoes,
+      },
+    });
   }
 }

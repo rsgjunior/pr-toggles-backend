@@ -3,6 +3,7 @@ import { EstrategiasService } from './estrategias.service';
 import { UpdateEstrategiaDto } from './dto/update-estrategia.dto';
 import { Ambientes } from '@prisma/client';
 import { ApiTags } from '@nestjs/swagger';
+import { CreateOrUpdateEstrategiaHasAgregadoDto } from './dto/create-update-estrategia-has-agregado.dto';
 
 @Controller('estrategias')
 @ApiTags('estrategias')
@@ -33,6 +34,16 @@ export class EstrategiasController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.estrategiasService.findOneById(+id);
+  }
+
+  @Patch('/hasAgregado/')
+  createOrUpdateEstrategiaHasAgregado(
+    @Body()
+    createOrUpdateEstrategiaHasAgregadoDto: CreateOrUpdateEstrategiaHasAgregadoDto,
+  ) {
+    return this.estrategiasService.createOrUpdateEstrategiaHasAgregado(
+      createOrUpdateEstrategiaHasAgregadoDto,
+    );
   }
 
   @Patch(':id')
