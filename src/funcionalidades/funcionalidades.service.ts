@@ -47,7 +47,6 @@ export class FuncionalidadesService {
     }
 
     const { projeto_id, valor, variacoes } = createFuncionalidadeDto;
-    const variacoesStr = JSON.stringify(variacoes);
 
     delete createFuncionalidadeDto.projeto_id;
     delete createFuncionalidadeDto.valor;
@@ -63,9 +62,9 @@ export class FuncionalidadesService {
       estrategias: {
         createMany: {
           data: [
-            { ambiente: 'dev', valor: valor, variacoes: variacoesStr },
-            { ambiente: 'homolog', valor: valor, variacoes: variacoesStr },
-            { ambiente: 'prod', valor: valor, variacoes: variacoesStr },
+            { ambiente: 'dev', valor, variacoes },
+            { ambiente: 'homolog', valor, variacoes },
+            { ambiente: 'prod', valor, variacoes },
           ],
         },
       },

@@ -29,7 +29,7 @@ export class AgregadosService {
     // Inicia a construção do obj com os dados em comum
     const data: Prisma.AgregadoCreateInput = {
       ...createAgregadoDto,
-      regras: JSON.stringify(regras),
+      regras: regras as object,
       projeto: {
         connect: { id: projeto_id },
       },
@@ -85,7 +85,7 @@ export class AgregadosService {
     if (updateAgregadoDto.descricao)
       data.descricao = updateAgregadoDto.descricao;
     if (updateAgregadoDto.regras)
-      data.regras = JSON.stringify(updateAgregadoDto.regras);
+      data.regras = updateAgregadoDto.regras as object;
 
     return await this.prisma.agregado.update({
       where: { id },
