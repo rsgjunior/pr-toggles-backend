@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Ambientes } from '@prisma/client';
 import {
+  IsArray,
   IsDefined,
   IsEnum,
   IsInt,
@@ -24,7 +25,7 @@ export class CreateEstrategiaDto {
   @IsOptional()
   valor?: string;
 
+  @IsArray()
   @IsOptional()
-  @IsJSON()
-  variacoes?: string;
+  variacoes?: object;
 }

@@ -40,5 +40,11 @@ PATCH http://localhost:3000/api/estrategias/1
 Content-Type: application/json
 
 {
-  "valor": "fodase"
+  "valor": "fodase",
+  "variacoes": [
+    {
+      "valor": "teste valor",
+      "peso": 50
+    }
+  ]
 }
