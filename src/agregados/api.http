@@ -2,15 +2,22 @@ POST http://localhost:3000/api/agregados
 Content-Type: application/json
 
 {
-  "nome": "agreg",
-  "projeto_id": 1,
+  "nome": "de maior ou adm",
+  "projeto_id": 5,
   "descricao": "teste",
   "regras": [
     [
       {
-        "key": "nome",
+        "key": "idade",
+        "operation": ">",
+        "value": 18
+      }
+    ],
+    [
+      {
+        "key": "cargo",
         "operation": "==",
-        "value": "Ciclano"
+        "value": "administrador"
       }
     ]
   ]

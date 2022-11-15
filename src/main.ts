@@ -36,6 +36,7 @@ async function bootstrap() {
     .addTag('estrategias')
     .addTag('regras')
     .addTag('agregados')
+    .addTag('chaves')
     .addTag('auth')
     .build();
   const document = SwaggerModule.createDocument(app, config);

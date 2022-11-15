@@ -11,6 +11,7 @@ import { ProjetosService } from './projetos.service';
 import { CreateProjetoDto } from './dto/create-projeto.dto';
 import { UpdateProjetoDto } from './dto/update-projeto.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { CalculateFuncionalidadesDto } from './dto/calculate-funcionalidades.dto';
 
 @ApiTags('projetos')
 @Controller('projetos')
@@ -37,6 +38,15 @@ export class ProjetosController {
   @ApiOperation({ summary: 'Obtem todos os projetos' })
   findAll() {
     return this.projetosService.findMany({});
+  }
+
+  @Post('/funcionalidades/')
+  calculateFuncionalidadesForProjeto(
+    @Body() calculateFuncionalidadesForProjetoDto: CalculateFuncionalidadesDto,
+  ) {
+    return this.projetosService.calculateFuncionalidadesForProjeto(
+      calculateFuncionalidadesForProjetoDto,
+    );
   }
 
   @Get(':id')

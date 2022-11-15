@@ -1,4 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
+import { OperatorRule } from './operator-rule';
 
 @Injectable()
 export class RegrasService {
@@ -47,7 +48,7 @@ export class RegrasService {
 
     const valorNoContexto = contexto[key];
 
-    if (!validarTipoDoValorDoContexto(valorNoContexto, operation)) {
+    if (!this.validarTipoDoValorDoContexto(valorNoContexto, operation)) {
       return false;
     }
 
@@ -73,9 +74,9 @@ export class RegrasService {
     return false;
   }
 
-  validarAgregadoDeRegras(agregado: Agregado) {
+  validarAgregadoDeRegras(agregado: Agregado, contexto: object) {
     return agregado.some((conjunto) =>
-      conjunto.every((regra) => validarRegra(regra, contexto)),
+      conjunto.every((regra) => this.validarRegra(regra, contexto)),
     );
   }
 }

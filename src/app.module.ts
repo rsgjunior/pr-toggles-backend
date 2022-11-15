@@ -7,6 +7,7 @@ import { UsuariosModule } from './usuarios/usuarios.module';
 import { EstrategiasModule } from './estrategias/estrategias.module';
 import { AgregadosModule } from './agregados/agregados.module';
 import { RegrasModule } from './regras/regras.module';
+import { ChavesModule } from './chaves/chaves.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { RegrasModule } from './regras/regras.module';
     EstrategiasModule,
     AgregadosModule,
     RegrasModule,
+    ChavesModule,
   ],
   controllers: [],
   providers: [],

@@ -10,7 +10,7 @@ GET http://localhost:3000/api/projetos/cliente/1
 
 ###
 
-POST http://localhost:3000/projetos
+POST http://localhost:3000/api/projetos
 content-type: application/json
 
 {
@@ -30,3 +30,16 @@ content-type: application/json
 
 ###
 DELETE http://localhost:3000/projetos/1
+
+
+###
+
+POST http://localhost:3000/api/projetos/funcionalidades
+content-type: application/json
+
+{
+  "chave_ambiente": "9e447dca-b094-4a40-b9af-8f4083dff8c1",
+  "contexto": {
+    "idade": 19
+  }
+}
