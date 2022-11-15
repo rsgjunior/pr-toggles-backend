@@ -8,6 +8,7 @@ import { EstrategiasModule } from './estrategias/estrategias.module';
 import { AgregadosModule } from './agregados/agregados.module';
 import { RegrasModule } from './regras/regras.module';
 import { ChavesModule } from './chaves/chaves.module';
+import { VariacoesModule } from './variacoes/variacoes.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { ChavesModule } from './chaves/chaves.module';
     AgregadosModule,
     RegrasModule,
     ChavesModule,
+    VariacoesModule,
   ],
   controllers: [],
   providers: [],

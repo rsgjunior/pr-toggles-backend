@@ -38,7 +38,7 @@ export class RegrasService {
   }
 
   validarRegra(regra: Regra, contexto: object): boolean {
-    console.log('validarRegra', regra, contexto);
+    this.logger.log('validarRegra', regra, contexto);
 
     const { key, operation, value } = regra;
 
@@ -68,7 +68,7 @@ export class RegrasService {
       case 'includes':
         return valorNoContexto.includes(value);
       default:
-        console.log('operador não registrado');
+        this.logger.log('operador não registrado');
     }
 
     return false;

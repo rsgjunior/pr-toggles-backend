@@ -145,10 +145,6 @@ export class ProjetosService {
 
     const { chave_ambiente, contexto } = calculateFuncionalidadesForProjetoDto;
 
-    if (!chave_ambiente) {
-      throw new BadRequestException(`chave inválida`);
-    }
-
     // Pega a chave para saber de qual projeto e ambiente é
     const chave = await this.prisma.chave.findFirst({
       where: {

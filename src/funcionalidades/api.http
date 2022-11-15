@@ -9,14 +9,18 @@ POST http://localhost:3000/api/funcionalidades
 content-type: application/json
 
 {
-    "nome": "funcionalidade_da_verdade",
-    "descricao": "a verdade é agora",
+    "nome": "cor entre azul, verde e vermelho",
+    "descricao": "testing",
     "projeto_id": 1,
-    "valor": "true",
+    "valor": "blue",
     "variacoes": [
       {
-        "valor": "false",
-        "peso": 50
+        "valor": "green",
+        "peso": 25
+      },
+      {
+        "valor": "red",
+        "peso": 25
       }
     ]
 }

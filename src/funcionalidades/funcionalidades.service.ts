@@ -8,6 +8,7 @@ import { Prisma } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateFuncionalidadeDto } from './dto/create-funcionalidade.dto';
 import { UpdateFuncionalidadeDto } from './dto/update-funcionalidade.dto';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class FuncionalidadesService {
@@ -54,6 +55,7 @@ export class FuncionalidadesService {
 
     const data: Prisma.FuncionalidadeCreateInput = {
       ...createFuncionalidadeDto,
+      salt: uuidv4().substring(0, 3),
       projeto: {
         connect: {
           id: projeto_id,

@@ -74,6 +74,7 @@ model Funcionalidade {
   ativada_prod    Boolean      @default(false)
   ativada_homolog Boolean      @default(false)
   ativada_dev     Boolean      @default(false)
+  salt            String       @db.VarChar(3) @default("123")
   created_at      DateTime     @default(now()) @db.Timestamp(0)
   updated_at      DateTime     @default(now()) @updatedAt @db.Timestamp(0)
   projeto         Projeto      @relation("funcionalidadeToprojeto", fields: [projeto_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_funcionalidade_projeto1")
