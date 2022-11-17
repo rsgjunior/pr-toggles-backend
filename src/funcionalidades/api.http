@@ -2,25 +2,21 @@
 GET http://localhost:3000/funcionalidades/1
 
 ### GET ALL BY PROJETO
-GET http://localhost:3000/api/funcionalidades/projeto/4
+GET http://localhost:3000/api/funcionalidades/projeto/3
 
 ### CREATE
 POST http://localhost:3000/api/funcionalidades
 content-type: application/json
 
 {
-    "nome": "cor entre azul, verde e vermelho",
+    "nome": "chat bot",
     "descricao": "testing",
-    "projeto_id": 1,
-    "valor": "blue",
+    "projeto_id": 3,
+    "valor": "true",
     "variacoes": [
       {
-        "valor": "green",
-        "peso": 25
-      },
-      {
-        "valor": "red",
-        "peso": 25
+        "valor": "false",
+        "peso": 50
       }
     ]
 }

@@ -4,7 +4,6 @@ import {
   HttpException,
   HttpStatus,
   Logger,
-  BadRequestException,
 } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -13,6 +12,8 @@ import { UpdateProjetoDto } from './dto/update-projeto.dto';
 import { v4 as uuidv4 } from 'uuid';
 import { RegrasService } from 'src/regras/regras.service';
 import { CalculateFuncionalidadesDto } from './dto/calculate-funcionalidades.dto';
+import { VariacoesService } from 'src/variacoes/variacoes.service';
+import { Variacao } from 'src/variacoes/interfaces';
 
 @Injectable()
 export class ProjetosService {
@@ -21,6 +22,7 @@ export class ProjetosService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly regrasService: RegrasService,
+    private readonly variacoesService: VariacoesService,
   ) {}
 
   async create(createProjetoDto: CreateProjetoDto) {
@@ -179,8 +181,6 @@ export class ProjetosService {
       },
     });
 
-    //return funcionalidades;
-
     const result = [];
     for (const funcionalidade of funcionalidades) {
       // se não está ativada nesse ambiente ignora
@@ -199,7 +199,17 @@ export class ProjetosService {
           if (
             funcionalidade.estrategias[0].estrategia_has_agregado[0].variacoes
           ) {
-            // calcula a variação
+            result.push({
+              funcionalidade: funcionalidade.nome,
+              valor: this.variacoesService.calcularVariacao(
+                funcionalidade.estrategias[0].estrategia_has_agregado[0].valor,
+                funcionalidade.estrategias[0].estrategia_has_agregado[0]
+                  .variacoes as unknown as Variacao[],
+                contexto,
+                funcionalidade.salt,
+              ),
+            });
+            continue; // Pula pra próxima funcionalidade pois já inseriu essa
           }
 
           // Se não tem variação retorna o valor padrão do segmento
@@ -215,7 +225,16 @@ export class ProjetosService {
 
       // Verifica se o valor tem variação
       if (funcionalidade.estrategias[0].variacoes) {
-        // calcula a variação
+        result.push({
+          funcionalidade: funcionalidade.nome,
+          valor: this.variacoesService.calcularVariacao(
+            funcionalidade.estrategias[0].valor,
+            funcionalidade.estrategias[0].variacoes as unknown as Variacao[],
+            contexto,
+            funcionalidade.salt,
+          ),
+        });
+        continue; // Pula pra próxima funcionalidade pois já inseriu essa
       }
 
       // Se não entrou em nenhum dos casos a cima, retorna o valor
@@ -226,6 +245,6 @@ export class ProjetosService {
       });
     }
 
-    return funcionalidades;
+    return result;
   }
 }

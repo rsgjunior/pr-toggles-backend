@@ -2,7 +2,7 @@ GET http://localhost:3000/projetos
 
 ###
 
-GET http://localhost:3000/api/projetos/1
+GET http://localhost:3000/api/projetos/
 
 ###
 
@@ -14,7 +14,7 @@ POST http://localhost:3000/api/projetos
 content-type: application/json
 
 {
-    "nome": "Barbearia",
+    "nome": "Consultoria",
     "descricao": "blablasadadsads",
     "cliente_id": 1
 }
@@ -38,8 +38,9 @@ POST http://localhost:3000/api/projetos/funcionalidades
 content-type: application/json
 
 {
-  "chave_ambiente": "9e447dca-b094-4a40-b9af-8f4083dff8c1",
+  "chave_ambiente": "381dfd7e-8857-422a-b30c-4e45b0b48f95",
   "contexto": {
-    "idade": 19
+    "idade": 19,
+    "user_id": "123"
   }
 }
