@@ -6,6 +6,8 @@ import {
   Patch,
   Param,
   Delete,
+  HttpCode,
+  HttpStatus,
 } from '@nestjs/common';
 import { ProjetosService } from './projetos.service';
 import { CreateProjetoDto } from './dto/create-projeto.dto';
@@ -41,6 +43,7 @@ export class ProjetosController {
   }
 
   @Post('/funcionalidades/')
+  @HttpCode(HttpStatus.OK)
   calculateFuncionalidadesForProjeto(
     @Body() calculateFuncionalidadesForProjetoDto: CalculateFuncionalidadesDto,
   ) {
