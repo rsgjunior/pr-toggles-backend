@@ -189,7 +189,10 @@ export class ProjetosService {
       }
 
       // verifica se tem segmento de regras
-      if (funcionalidade.estrategias[0].estrategia_has_agregado.length) {
+      if (
+        funcionalidade.estrategias[0].estrategia_has_agregado.length &&
+        funcionalidade.estrategias[0].estrategia_has_agregado[0].ativado
+      ) {
         const agregado = funcionalidade.estrategias[0]
           .estrategia_has_agregado[0].agregado.regras as unknown as Agregado;
 
