@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Request, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Post,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
 import { ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { RequestLogin } from './dto/request-login.dto';
@@ -17,7 +25,8 @@ export class AuthController {
     type: RequestLogin,
   })
   @ApiResponse({ status: 401, description: 'Usuário ou senha incorretos' })
-  @ApiResponse({ status: 201, description: 'Success', type: ResponseLogin })
+  @ApiResponse({ status: 200, description: 'Success', type: ResponseLogin })
+  @HttpCode(HttpStatus.OK)
   async login(@Request() req) {
     return this.authService.login(req.user);
   }
