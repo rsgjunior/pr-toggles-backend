@@ -3,6 +3,7 @@ import {
   IsArray,
   IsInt,
   IsNotEmpty,
+  IsOptional,
   IsPositive,
   IsString,
 } from 'class-validator';
@@ -20,7 +21,7 @@ export class CreateAgregadoDto {
   nome?: string;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   @ApiPropertyOptional()
   descricao?: string;
 
